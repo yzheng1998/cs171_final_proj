@@ -1,3 +1,24 @@
+// Variable for the visualization instance
+let myChordChart;
+
+
+d3.csv("data/movies_on_streaming_platforms.csv").then(function(data) {
+    gettingStarted(data);
+});
+
+
+// function that gets called once data has been fetched.
+// We're handing over the fetched data to this function.
+// From the data, we're creating the final data structure we need and create a new instance of the StationMap
+function gettingStarted(data) {
+
+    // log data
+
+
+    // Instantiate visualization object (bike-sharing stations in Boston)
+    myChordChart = new ChordChart("chord-vis", data);
+}
+
 // // Function to convert date objects to strings or reverse
 // let dateFormatter = d3.timeFormat("%Y-%m-%d");
 // let dateParser = d3.timeParse("%Y-%m-%d");

@@ -1,36 +1,85 @@
-.title {
+#landing-title {
   color: black;
   font-family: "Space Mono";
-  font-weight: bold;
-  font-size: 60px;
+  font-weight: 700;
+  font-size: min(60px, 5vw);
+}
+
+.title {
+  font-family: "Space Mono";
+  font-weight: 700;
 }
 
 .title-sub {
-  font-family: "Work Sans";
+  font-family: "Space Mono";
+  font-size: 20px;
+  font-weight: 700;
+}
+
+h6 {
+  margin-top: 30px;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+h4 {
+  margin-top: 40px;
+  font-family: "Space Mono";
+  font-weight: 700;
 }
 
 body {
-  padding: 10vh 10vw;
+  font-family: "Work Sans";
 }
 
-.wrap {
+section {
+  height: auto;
+  padding: 10vh 15vw;
+}
+
+.section {
   height: 100%;
-  width: 100%;
-  text-align: center;
 }
 
+/* just for template, can remove after we make visualizations */
+#section0 {
+  height: 80vh;
+}
+#section1,
+#section5,
+#section6 {
+  height: 100vh;
+}
+
+/* nav dot scroll styling */
+
+nav#dot-nav {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+}
+
+nav#dot-nav a {
+  border: 1px solid #121212;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  display: block;
+  margin: 10px;
+}
+
+nav#dot-nav a.active {
+  background: #121212;
+}
+/* nav#dot-nav a:first-child {
+  background: #121212;
+} */
+
+/* bouncing scroll arrow animation styling */
 #arrow {
-  height: 50px;
+  height: 30px;
   width: auto;
 }
-
-/* .wrap #arrow {
-  margin: 0px 0 0 -40px;
-  line-height: 60px;
-  position: absolute;
-  left: 50%;
-  bottom: 0px;
-} */
 
 .bounce {
   animation-iteration-count: infinite;

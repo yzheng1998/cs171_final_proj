@@ -32,55 +32,138 @@
     />
   </head>
   <body>
-    <div class="container-fluid main">
-      <div class="row">
-        <div class="col-5 d-flex flex-column justify-content-center" style="background: white">
-            <h1 class="title">
-              Streaming <br />
-              Wars
-            </h1>
-            <h4 class="title-sub">Which streaming platform is the best for you?</h4>
-        </div>
-        <div class="col-7" style="background: white;">
-          <div class="row justify-content-center" style="height: 100%;">
-            <div class="align-self-center">
+      <nav id="dot-nav"></nav>
+      <!--landing page section-->
+      <section> 
+        <div class="row section" id="section0">
+            <div class="col-5 d-flex flex-column justify-content-center" style="background: white">
+                <h1 class="title" id="landing-title">
+                  Streaming <br />
+                  Wars
+                </h1>
+                <h4 class="title-sub">Which streaming platform is the best for you?</h4>
+            </div>
+          <div class="col-7 d-flex flex-column justify-content-center" style="background: white;">
+              <div class="align-self-center">
+                <img
+                  src="img/streaming_wars_home.png"
+                  alt="streaming wars home
+              page"
+                  id="home-page-graphic"
+                  width="120%"
+                />
+              </div>
+          </div>
+          <div class="row d-flex justify-content-center align-content-end" style="width: 100%">
               <img
-                src="img/streaming_wars_home.png"
-                alt="streaming wars home
-            page"
-                id="home-page-graphic"
-                width="90%"
-              />
+              src="http://image.flaticon.com/icons/svg/3/3907.svg"
+              id="arrow"
+              class="animated bounce"
+            />
+          </div>
+          </div>
+      </section>
+
+      <!-- section 1: intro-->
+      <section> 
+        <div class="row section" id="section1">
+          <div class="col-md-12">
+            <h2 class="title">When was the last time you watched TV...on an actual TV?</h2>
+            <h6>Televisions and movie theaters seem like things of the past. With the convenience of almost any movie or show at just a few taps or clicks away, streaming has become the mainstream (no pun intended).</h4>
+          </div>
+        </div>
+      </section>
+
+      <!-- section 2: hook visualization-->
+      <section>
+        <div class="row section" id="section2">
+          <div class="col-md-12">
+              <h2 class="title">The rise of the age of streaming</h2>
+              <h6>The number of subscribers and revenue for streaming platforms have skyrocketed over the last decade. Netflix appears to be the leading platform to rise in the streaming space ever since it started transitioning from its old DVD rental service model to a streaming model in 2007.</h6>
+            <div id="hook-vis">
+              <!-- placeholder img-->
+              <img src="img/placeholders/hook-vis.png"
+              width=100%/>
             </div>
           </div>
         </div>
-      </div>
-      <div class="wrap">
-        <img
-          src="http://image.flaticon.com/icons/svg/3/3907.svg"
-          id="arrow"
-          class="animated bounce"
-        />
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <h2>When was the last time you watched TV...on an actual TV?</h1>
-          <h6>Televisions and movie theaters seem like things of the past. With the convenience of almost any movie or show at just a few taps or clicks away, streaming has become the mainstream (no pun intended).</h4>
-        </div>
-      </div>
+      </section>
 
-      <div class="row">
-        <div class="col-md-12">
-          <div id="examplevis"></div>
-        </div>
-      </div>
+      <!-- section 3: overview visualizations (map, radial genre, chord diagram)-->
+      <section>
+        <div class="row section" id="section3">
+          <div class="col-md-12">
+            <h2 class="title">Overall, how do the streaming platforms compare?</h2>
 
-      <div class="row">
-        <div class="col-md-12">
-          <div id="examplevis2"></div>
+            <!-- map visualization -->
+            <h4>Where is the content produced?</h4>
+            <h6>Let’s first take a look at the spread of content on streaming platforms by their country of production. Feel free to select which platform you want to filter the map by specifically in the drop-down!</h6>
+            <div id="map-vis">
+               <!-- placeholder img-->
+               <img src="img/placeholders/map-vis.png"
+               width=100%/>
+            </div>
+          </section>
+
+          <section>
+            <!-- genre profile radial visualization -->
+            <h4>What is the genre profile of each platform?</h4>
+            <h6>Each axis represents a different genre from the top 10 genres across all streaming services. For each streaming service, its distribution of genres is mapped onto this radial plot below. This provides a visual representation of the genre profile and breakdown of content by genre.</h6>
+            <div id="radial-genre-vis">
+               <!-- placeholder img-->
+               <img src="img/placeholders/genre-profile-vis.png"
+               width=100%/>
+            </div>
+          </section>
+          
+            <!-- chord diagram of overlapping content -->
+            <div id="chord-vis"></div>
+          </div>
         </div>
-      </div>
-    </div>
+      
+      <!-- section 4: exploratory visualization-->
+      <section>
+          <div class="row section" id="section4">
+            <div class="col-md-12">
+                <h2 class="title">No platform is one-size-fits-all. <br>
+                    Let’s find which platform is best for you!</h2>
+                    <h6>In this exploratory visualization, use the filters provided to select streaming content that you love the most. During this process, you’ll get to see how your favorite content compares to all the content across the platforms.
+                       <br><br>When you’re done selecting, leave the rest of the work to us. We’ll help you find which platform is the most suitable for your viewing preferences.
+                  </h6>
+              <div id="exploratory-vis">
+                 <!-- placeholder img-->
+                  <img src="img/placeholders/exploratory-vis.png"
+                  height=100%/>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- section 5: selections from exploratory tool-->
+      <section>
+          <div class="row section" id="section5">
+            <div class="col-md-12">
+                <h2 class="title">These are your viewing preferences.</h2>
+                <h6>Take a look at how your viewing preferences map onto the streaming platforms.</h6>
+              <div id="results-vis">
+                 <!-- placeholder img-->
+                <img src="img/placeholders/results-vis.png"
+                width=100%/>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- section 6: final results-->
+      <section>
+          <div class="row section" id="section6">
+            <div class="col-md-12">
+                <h2 class="title">We think that XYZ is the best platform for you!</h2>
+                <h6>Based on your viewing preferences, we think XYZ platform is most suited for you because it has:
+                 <br> the greatest number of ABC genres, <br>XX% of content with a XX% rotten tomatoes rating, <br>and the most content from CountryName.</h6>
+            </div>
+          </div>
+        </section>
 
     <!-- embedding JS libraries -->
     <script
@@ -103,6 +186,7 @@
     <script src="https://d3js.org/d3.v6.min.js"></script>
 
     <!-- own js files -->
+    <script type="text/javascript" src="js/dot-nav-min.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

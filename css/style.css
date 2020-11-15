@@ -37,18 +37,19 @@ section {
   padding: 10vh 15vw;
 }
 
-.section {
+/* .section {
   height: 100%;
-}
+} */
 
 /* just for template, can remove after we make visualizations */
 #section0 {
-  height: 80vh;
+  height: 90vh;
 }
 #section1,
+#section2,
 #section5,
 #section6 {
-  height: 100vh;
+  height: 90vh;
 }
 
 /* nav dot scroll styling */

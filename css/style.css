@@ -1,76 +1,80 @@
 #landing-title {
-  color: black;
-  font-family: "Space Mono";
-  font-weight: 700;
-  font-size: min(60px, 5vw);
+    color: black;
+    font-family: "Space Mono";
+    font-weight: 700;
+    font-size: min(60px, 5vw);
 }
 
 .title {
-  font-family: "Space Mono";
-  font-weight: 700;
+    font-family: "Space Mono";
+    font-weight: 700;
 }
 
 .title-sub {
-  font-family: "Space Mono";
-  font-size: 20px;
-  font-weight: 700;
+    font-family: "Space Mono";
+    font-size: 20px;
+    font-weight: 700;
 }
 
 h6 {
-  margin-top: 30px;
-  font-size: 18px;
-  font-weight: 300;
+    margin-top: 30px;
+    font-size: 18px;
+    font-weight: 300;
 }
 
 h4 {
-  margin-top: 40px;
-  font-family: "Space Mono";
-  font-weight: 700;
+    margin-top: 40px;
+    font-family: "Space Mono";
+    font-weight: 700;
 }
 
 body {
-  font-family: "Work Sans";
+    font-family: "Work Sans";
 }
 
 section {
-  height: auto;
-  padding: 10vh 15vw;
+    height: auto;
+    padding: 10vh 15vw;
 }
 
+#map-vis {
+    width: 100%;
+    height: 70vh;
+}
 /* .section {
   height: 100%;
 } */
 
 /* just for template, can remove after we make visualizations */
 #section0 {
-  height: 90vh;
+    height: 90vh;
 }
 #section1,
 #section2,
 #section5,
 #section6 {
-  height: 90vh;
+    height: 90vh;
 }
 
 /* nav dot scroll styling */
 
 nav#dot-nav {
-  position: fixed;
-  right: 20px;
-  top: 20px;
+    position: fixed;
+    right: 20px;
+    top: 20px;
 }
 
 nav#dot-nav a {
-  border: 1px solid #121212;
-  border-radius: 50%;
-  width: 8px;
-  height: 8px;
-  display: block;
-  margin: 10px;
+    border: 1px solid #121212;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    display: block;
+    margin: 10px;
 }
 
 nav#dot-nav a.active {
-  background: #121212;
+    background: #121212;
 }
 /* nav#dot-nav a:first-child {
   background: #121212;
@@ -78,40 +82,40 @@ nav#dot-nav a.active {
 
 /* bouncing scroll arrow animation styling */
 #arrow {
-  height: 30px;
-  width: auto;
+    height: 30px;
+    width: auto;
 }
 
 .bounce {
-  animation-iteration-count: infinite;
-  animation-duration: 1.5s;
-  animation: bounce 3.6s ease infinite;
-  transform-origin: 50% 50%;
+    animation-iteration-count: infinite;
+    animation-duration: 1.5s;
+    animation: bounce 3.6s ease infinite;
+    transform-origin: 50% 50%;
 }
 
 @keyframes bounce {
-  0% {
-    transform: translateY(0);
-  }
-  5.55556% {
-    transform: translateY(0);
-  }
-  11.11111% {
-    transform: translateY(0);
-  }
-  22.22222% {
-    transform: translateY(-15px);
-  }
-  27.77778% {
-    transform: translateY(0);
-  }
-  33.33333% {
-    transform: translateY(-15px);
-  }
-  44.44444% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(0);
-  }
+    0% {
+        transform: translateY(0);
+    }
+    5.55556% {
+        transform: translateY(0);
+    }
+    11.11111% {
+        transform: translateY(0);
+    }
+    22.22222% {
+        transform: translateY(-15px);
+    }
+    27.77778% {
+        transform: translateY(0);
+    }
+    33.33333% {
+        transform: translateY(-15px);
+    }
+    44.44444% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }

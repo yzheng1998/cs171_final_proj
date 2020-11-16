@@ -38,30 +38,7 @@ class DotsVis {
       .select("body")
       .append("div")
       .attr("class", "tooltip")
-      .attr("id", vis.parentElement + "_ttip");
-
-    // let simulation = d3
-    //   .forceSimulation(nodes)
-    //   .force("charge", d3.forceManyBody())
-    //   .force("center", d3.forceCenter(vis.width / 2, vis.height / 2))
-    //   .on("tick", ticked);
-
-    // function ticked() {
-    //   var u = vis.svg.selectAll("circle").data(nodes);
-
-    //   u.enter()
-    //     .append("circle")
-    //     .attr("r", 5)
-    //     .merge(u)
-    //     .attr("cx", function (d) {
-    //       return d.x;
-    //     })
-    //     .attr("cy", function (d) {
-    //       return d.y;
-    //     });
-
-    //   u.exit().remove();
-    // }
+      .attr("id", "dotsTooltip");
 
     this.wrangleData();
   }
@@ -115,18 +92,7 @@ class DotsVis {
 
   updateVis() {
     let vis = this;
-
-    // var color = d3.scaleOrdinal().range(["#7A99AC", "#E4002B"]);
     var color = ["#E50914", "#7de39f", "#edbc51", "#66a1ed"];
-
-    // d3.text("word_groups.csv", function (error, text) {
-    //   if (error) throw error;
-    //   var colNames = "text,size,group\n" + text;
-    //   var data = d3.csv.parse(colNames);
-
-    //   data.forEach(function (d) {
-    //     d.size = +d.size;
-    //   });
 
     var cs = ["Netflix", "Hulu", "Prime Video", "Disney+"];
 
@@ -159,18 +125,12 @@ class DotsVis {
 
     console.log("nodes", nodes);
 
-    // var force = d3
-    //   .forceSimulation(nodes)
-    //   .force("charge", 0)
-    //   .force("center", d3.forceCenter(vis.width / 2, vis.height / 2))
-    //   .on("tick", tick);
-
     var forceCollide = d3
       .forceCollide()
       .radius(function (d) {
-        return d.radius + 1.5;
+        return d.radius + 2;
       })
-      .iterations(1);
+      .iterations(5);
 
     function forceCluster(alpha) {
       for (
@@ -187,6 +147,8 @@ class DotsVis {
     console.log("clusters", clusters);
 
     var circle = vis.svg
+      .append("g")
+      .attr("class", "nodes")
       .selectAll("circle")
       .data(nodes)
       .enter()
@@ -194,11 +156,36 @@ class DotsVis {
       .attr("r", function (d) {
         return d.radius;
       })
+      .call(
+        d3
+          .drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended)
+      )
       .style("fill", function (d) {
         return color[d.cluster];
+      })
+      .style("opacity", 1)
+      .on("mouseover", function (event, d) {
+        d3.select(this).style("opacity", 0.7);
+        vis.tooltip
+          .style("opacity", 1)
+          .style("left", event.pageX + 20 + "px")
+          .style("top", event.pageY + "px").html(`
+         <div style="border: thin solid grey; border-radius: 5px; background: rgba(0, 0, 0, .7); padding: 5px;">
+            <p style="font-size: 10px; color: white; margin: 0px">Platform: ${d.platform}<br>Genre: ${d.genre}<br>Count: ${d.count}<p>
+         </div>`);
+      })
+      .on("mouseout", function (event, d) {
+        d3.select(this).style("opacity", 1);
+
+        vis.tooltip
+          .style("opacity", 0)
+          .style("left", 0)
+          .style("top", 0)
+          .html(``);
       });
-    //    TODO: Update for v4
-    //    .call(force.drag);
 
     function tick() {
       circle
@@ -216,24 +203,32 @@ class DotsVis {
       .force("center", d3.forceCenter(vis.width / 2, vis.height / 2))
       .force("collide", forceCollide)
       .force("cluster", forceCluster)
-      .force("gravity", d3.forceManyBody(30))
+      //.force("gravity", d3.forceManyBody(20))
+      .force("charge", d3.forceManyBody(20))
       .force("x", d3.forceX().strength(0.7))
       .force("y", d3.forceY().strength(0.7))
       .on("tick", tick);
 
-    var node = vis.svg
-      .selectAll("circle")
-      .data(nodes)
-      .enter()
-      .append("g")
-      .call(force.drag);
+    // Drag functions used for interactivity
+    function dragstarted(event, d) {
+      if (!d.active) {
+        force.alphaTarget(0.15).restart();
+      }
+      d.fx = event.x;
+      d.fy = event.y;
+    }
 
-    // node
-    //   .append("text")
-    //   .attr("dy", ".3em")
-    //   .style("text-anchor", "middle")
-    //   .text(function (d) {
-    //     return d.text.substring(0, d.radius / 3);
-    //   });
+    function dragged(event, d) {
+      d.fx = event.x;
+      d.fy = event.y;
+    }
+
+    function dragended(event, d) {
+      if (!d.active) {
+        force.alphaTarget(0);
+      }
+      d.fx = null;
+      d.fy = null;
+    }
   }
 }

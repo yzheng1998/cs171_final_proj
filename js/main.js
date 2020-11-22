@@ -1,6 +1,7 @@
 let myChordChart;
 let myMapVis;
 let myDotsVis;
+let myGenreVis;
 
 let promises = [
   d3.csv("data/movies_on_streaming_platforms.csv", function (d) {
@@ -37,4 +38,5 @@ function gettingStarted([moviesData, countryData, geoData, genresData]) {
   myChordChart = new ChordChart("chord-vis", moviesData);
   myMapVis = new MapVis("map-vis", countryData, geoData);
   myDotsVis = new DotsVis("exploratory-vis", moviesData, genresData);
+  myGenreVis = new GenreVis("radial-genre-vis", moviesData, genresData);
 }

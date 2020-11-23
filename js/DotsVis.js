@@ -3,6 +3,12 @@ class DotsVis {
     this.parentElement = parentElement;
     this.movieData = movieData;
     this.genresData = genresData;
+    this.color = ["#E50914", "#7de39f", "#edbc51", "#66a1ed"];
+
+    this.cs = ["Netflix", "Hulu", "Prime Video", "Disney+"];
+
+    //create clusters
+    this.clusters = new Array(this.cs.length);
 
     this.initVis();
   }
@@ -40,11 +46,22 @@ class DotsVis {
       .attr("class", "tooltip")
       .attr("id", "dotsTooltip");
 
+    vis.node = vis.svg.append("g").selectAll(".bubble-node");
+
+    vis.force = d3
+      .forceSimulation()
+      .force("center", d3.forceCenter(vis.width / 2, vis.height / 2))
+      .force("charge", d3.forceManyBody(20))
+      .force("x", d3.forceX().strength(0.7))
+      .force("y", d3.forceY().strength(0.7));
+
     this.wrangleData();
   }
 
   wrangleData() {
     let vis = this;
+
+    var selectedGenres = $("#genres").val();
 
     let platforms = ["Netflix", "Hulu", "Prime Video", "Disney+"];
 
@@ -55,7 +72,7 @@ class DotsVis {
       Netflix: new Set(),
       Hulu: new Set(),
       "Prime Video": new Set(),
-      "Disney+": new Set()
+      "Disney+": new Set(),
     };
 
     vis.movieData.forEach((movie) => {
@@ -73,7 +90,11 @@ class DotsVis {
         if (genre === "") {
           continue;
         }
-        if (+indicator) {
+        if (
+          +indicator &&
+          // filter selectedGenres
+          (selectedGenres.length === 0 || selectedGenres.includes(genre))
+        ) {
           Object.keys(vis.platforms).forEach((platform) => {
             if (vis.platforms[platform].has(i)) {
               vis.genreCount[platform + "," + genre] = vis.genreCount[
@@ -92,19 +113,12 @@ class DotsVis {
 
   updateVis() {
     let vis = this;
-    var color = ["#E50914", "#7de39f", "#edbc51", "#66a1ed"];
 
-    var cs = ["Netflix", "Hulu", "Prime Video", "Disney+"];
-
-    var n = vis.genreCount.length, // total number of nodes
-      m = cs.length; // number of distinct clusters
-
-    //create clusters and nodes
-    var clusters = new Array(m);
+    // create nodes
     var nodes = Object.entries(vis.genreCount).map(([platformGenre, count]) => {
       const [platform, genre] = platformGenre.split(",");
       let scaledRadius = Math.sqrt(count),
-        forcedCluster = cs.indexOf(platform);
+        forcedCluster = vis.cs.indexOf(platform);
 
       // add cluster id and radius to array
       let d = {
@@ -112,18 +126,16 @@ class DotsVis {
         radius: scaledRadius,
         platform,
         genre,
-        count
+        count,
       };
       // add to clusters array if it doesn't exist or the radius is larger than another radius in the cluster
       if (
-        !clusters[forcedCluster] ||
-        scaledRadius > clusters[forcedCluster].radius
+        !vis.clusters[forcedCluster] ||
+        scaledRadius > vis.clusters[forcedCluster].radius
       )
-        clusters[forcedCluster] = d;
+        vis.clusters[forcedCluster] = d;
       return d;
     });
-
-    console.log("nodes", nodes);
 
     var forceCollide = d3
       .forceCollide()
@@ -139,23 +151,28 @@ class DotsVis {
         ++i
       ) {
         node = nodes[i];
-        cluster = clusters[node.cluster];
+        cluster = vis.clusters[node.cluster];
         node.vx -= (node.x - cluster.x) * k;
         node.vy -= (node.y - cluster.y) * k;
       }
     }
-    console.log("clusters", clusters);
 
-    var circle = vis.svg
-      .append("g")
-      .attr("class", "nodes")
-      .selectAll("circle")
-      .data(nodes)
+    vis.node = vis.node.data(nodes, function (d) {
+      return d.platform + "," + d.genre;
+    });
+
+    vis.node
+      .exit()
+      .transition()
+      .duration(750)
+      .style("fill", "grey")
+      .attr("r", 0.0001)
+      .remove();
+
+    var newNode = vis.node
       .enter()
       .append("circle")
-      .attr("r", function (d) {
-        return d.radius;
-      })
+      .attr("class", "bubble-node")
       .call(
         d3
           .drag()
@@ -164,7 +181,7 @@ class DotsVis {
           .on("end", dragended)
       )
       .style("fill", function (d) {
-        return color[d.cluster];
+        return vis.color[d.cluster];
       })
       .style("opacity", 1)
       .on("mouseover", function (event, d) {
@@ -187,8 +204,17 @@ class DotsVis {
           .html(``);
       });
 
+    vis.node = vis.node.merge(newNode);
+
+    vis.node
+      .transition()
+      .duration(750)
+      .attr("r", function (d) {
+        return d.radius;
+      });
+
     function tick() {
-      circle
+      vis.node
         .attr("cx", function (d) {
           return d.x;
         })
@@ -197,22 +223,19 @@ class DotsVis {
         });
     }
 
-    var force = d3
-      .forceSimulation()
+    // reset force
+    vis.force
       .nodes(nodes)
-      .force("center", d3.forceCenter(vis.width / 2, vis.height / 2))
       .force("collide", forceCollide)
       .force("cluster", forceCluster)
-      //.force("gravity", d3.forceManyBody(20))
-      .force("charge", d3.forceManyBody(20))
-      .force("x", d3.forceX().strength(0.7))
-      .force("y", d3.forceY().strength(0.7))
       .on("tick", tick);
+
+    vis.force.alpha(0.4).alphaTarget(0).restart();
 
     // Drag functions used for interactivity
     function dragstarted(event, d) {
       if (!d.active) {
-        force.alphaTarget(0.15).restart();
+        vis.force.alphaTarget(0.15).restart();
       }
       d.fx = event.x;
       d.fy = event.y;
@@ -225,7 +248,7 @@ class DotsVis {
 
     function dragended(event, d) {
       if (!d.active) {
-        force.alphaTarget(0);
+        vis.force.alphaTarget(0);
       }
       d.fx = null;
       d.fy = null;

@@ -2,6 +2,7 @@ let myChordChart;
 let myMapVis;
 let myDotsVis;
 let myGenreVis;
+let myGenreSelector;
 
 let promises = [
   d3.csv("data/movies_on_streaming_platforms.csv", function (d) {
@@ -22,12 +23,12 @@ let promises = [
       Runtime: +d.Runtime,
       Year: +d.Year,
       Genres: d.Genres,
-      Id: +d[""]
+      Id: +d[""],
     };
   }),
   d3.csv("data/streaming_movies_countries.csv"),
   d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json"),
-  d3.csv("data/streaming_movies_genres.csv")
+  d3.csv("data/streaming_movies_genres.csv"),
 ];
 
 Promise.all(promises).then((data) => {
@@ -36,7 +37,12 @@ Promise.all(promises).then((data) => {
 
 function gettingStarted([moviesData, countryData, geoData, genresData]) {
   myChordChart = new ChordChart("chord-vis", moviesData);
-  myMapVis = new MapVis("map-vis", countryData, geoData);
+  myMapVis = new MapVis("map-vis", countryData, geoData, moviesData);
   myDotsVis = new DotsVis("exploratory-vis", moviesData, genresData);
   myGenreVis = new GenreVis("radial-genre-vis", moviesData, genresData);
+  myGenreSelector = new GenreSelector("genres", genresData.columns.slice(1));
 }
+
+$("#genres").on("select2:closing", function (event) {
+  myDotsVis.wrangleData();
+});

@@ -66,6 +66,8 @@ class DotsVis {
       }
     });
 
+    console.log(vis.platforms);
+
     vis.genreCount = {};
 
     vis.genresData.forEach((movie, i) => {
@@ -86,6 +88,8 @@ class DotsVis {
         }
       }
     });
+
+    myPlotVis = new PlotVis("results-vis", vis.platforms, vis.movieData);
 
     vis.updateVis();
   }

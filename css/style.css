@@ -128,3 +128,22 @@ nav#dot-nav a.active {
     transform: translateY(0);
   }
 }
+
+
+#tooltip {
+  position: absolute;
+  width: auto;
+  height: auto;
+  padding: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}

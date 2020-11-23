@@ -146,11 +146,67 @@
             <div class="col-md-12">
                 <h2 class="title">These are your viewing preferences.</h2>
                 <h6>Take a look at how your viewing preferences map onto the streaming platforms.</h6>
-              <div id="results-vis">
-                 <!-- placeholder img-->
-                <img src="img/placeholders/results-vis.png"
-                width=100%/>
-              </div>
+                <div style="display: flex; flex-direction: row;">
+                    <div id="chart-area">
+
+                        <div>
+                            <div id="tooltip" class="hidden">
+                                <!--					<p><strong id="tooltip-strong">Goals</strong></p>-->
+                                <p><span id="value"></span></p>
+                                <p><span id="value2"></span></p>
+
+                            </div>
+                        </div>
+                    </div>
+                      <div id="results-vis" style="width: 500px; height: 500px;">
+                         <!-- placeholder img-->
+        <!--                <img src="img/placeholders/results-vis.png"-->
+        <!--                width=100%/>-->
+                      </div>
+                        <div style="display: flex; flex-direction: column; justify-content: column; justify-content: space-around;">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label for="plot-platform" style="margin-right: 4px;">Choose platform</label>
+                                    <select class="form-control" id="plot-platform">
+                                        <option value="Netflix">Netflix</option>
+                                        <option value="Hulu">Hulu</option>
+                                        <option value="Disney+">Disney+</option>
+                                        <option value="Prime Video">Prime Video</option>
+                                    </select>
+
+                                    <!-- Activity IV -->
+                                    <!--<button type="button" class="btn btn-link" id="change-sorting"><i class="glyphicon glyphicon-sort"></i> Sort</button>-->
+                                </div>
+                            </form>
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Platform</th>
+                                    <th scope="col">Count</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">Netflix</th>
+                                    <td id="netflix-count"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Hulu</th>
+                                    <td id="hulu-count"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Disney+</th>
+                                    <td id="disney-count"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Prime Video</th>
+                                    <td id="prime-video-count"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
             </div>
           </div>
         </section>
@@ -194,5 +250,6 @@
     <script src="js/MapVis.js"></script>
     <script src="js/DotsVis.js"></script>
     <script src="js/GenreVis.js"></script>
+      <script src="js/PlotVis.js"></script>
   </body>
 </html>

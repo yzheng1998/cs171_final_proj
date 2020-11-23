@@ -2,6 +2,8 @@ let myChordChart;
 let myMapVis;
 let myDotsVis;
 let myGenreVis;
+let myPlotVis;
+let plotPlatform = 'Netflix';
 
 let promises = [
   d3.csv("data/movies_on_streaming_platforms.csv", function (d) {
@@ -35,8 +37,17 @@ Promise.all(promises).then((data) => {
 });
 
 function gettingStarted([moviesData, countryData, geoData, genresData]) {
-  myChordChart = new ChordChart("chord-vis", moviesData);
+  // myChordChart = new ChordChart("chord-vis", moviesData);
   myMapVis = new MapVis("map-vis", countryData, geoData);
   myDotsVis = new DotsVis("exploratory-vis", moviesData, genresData);
   myGenreVis = new GenreVis("radial-genre-vis", moviesData, genresData);
 }
+
+d3.select("#plot-platform").on("change", () => {
+  let value = d3.select("#plot-platform").property("value");
+
+  plotPlatform = value;
+
+  myPlotVis.wrangleData();
+
+});

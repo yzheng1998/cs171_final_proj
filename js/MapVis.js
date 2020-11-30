@@ -13,7 +13,6 @@ class MapVis {
     this.colors = ["#fddbc7", "#f4a582", "#d6604d", "#b2182b"];
 
     this.initVis();
-    console.log(this.moviesData);
   }
 
   initVis() {
@@ -109,6 +108,7 @@ class MapVis {
 
   wrangleData() {
     let vis = this;
+    $("#map-selector");
 
     vis.countryInfo = vis.countryData.reduce(function (acc, curVal) {
       vis.geoData.objects.countries.geometries.forEach((country) => {

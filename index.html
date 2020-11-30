@@ -139,8 +139,14 @@
             drop-down!
           </h6>
           <div id="map-vis"></div>
-          <div class="row" style="height: 18vh">
-            <div id="brushDiv" style="height: 100%; width: 100%"></div>
+          <div class="btn-group" id="map-selector" role="group">
+            <button type="button" class="btn btn-secondary active">All</button>
+            <button type="button" class="btn btn-secondary">Netflix</button>
+            <button type="button" class="btn btn-secondary">Hulu</button>
+            <button type="button" class="btn btn-secondary">Disney +</button>
+            <button type="button" class="btn btn-secondary">
+              Amazon Prime
+            </button>
           </div>
         </div>
       </div>
@@ -206,11 +212,7 @@
                 </div>
               </div>
             </div>
-            <div id="results-vis" style="width: 500px; height: 500px">
-              <!-- placeholder img-->
-              <!--                <img src="img/placeholders/results-vis.png"-->
-              <!--                width=100%/>-->
-            </div>
+            <div id="results-vis" style="width: 500px; height: 500px"></div>
             <div
               style="
                 display: flex;

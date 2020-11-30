@@ -19,6 +19,7 @@ outputRT.innerHTML = sliderRT.value; // Display the default slider value
 sliderRT.oninput = function () {
   outputRT.innerHTML = this.value;
   myDotsVis.wrangleData();
+  myPlotVis.wrangleData();
 };
 
 var sliderIMDb = document.getElementById("IMDb");
@@ -29,6 +30,7 @@ outputIMDb.innerHTML = sliderIMDb.value; // Display the default slider value
 sliderIMDb.oninput = function () {
   outputIMDb.innerHTML = this.value;
   myDotsVis.wrangleData();
+  myPlotVis.wrangleData();
 };
 
 var sliderAge = document.getElementById("Age");
@@ -39,4 +41,5 @@ outputAge.innerHTML = sliderAge.value; // Display the default slider value
 sliderAge.oninput = function () {
   outputAge.innerHTML = this.value;
   myDotsVis.wrangleData();
+  myPlotVis.wrangleData();
 };

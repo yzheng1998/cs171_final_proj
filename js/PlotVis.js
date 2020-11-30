@@ -55,10 +55,7 @@ class PlotVis {
 
     var selectedGenres = $("#genres").val();
 
-    console.log(vis.streamingData);
-    console.log("genres", selectedGenres);
-
-    vis.displayData = vis.streamingData.filter((movie) => {
+    vis.displayData = filteredData.filter((movie) => {
       return (
         movie[plotPlatform] === 1 &&
         (selectedGenres.length === 0 ||
@@ -68,8 +65,6 @@ class PlotVis {
         movie["Rotten Tomatoes"] !== null
       );
     });
-
-    console.log("displaydata", vis.displayData);
 
     // document.getElementById("netflix-count").innerHTML = platformCounts.Netflix;
     // document.getElementById("hulu-count").innerHTML = platformCounts.Hulu;
@@ -150,7 +145,8 @@ class PlotVis {
           "</span><br/>" +
           "<span>" +
           "Rotten Tomatoes score: " +
-          d["Rotten Tomatoes"] +
+          d["Rotten Tomatoes"] * 100 +
+          "%" +
           "</span><br/>";
 
         d3.select("#tooltip")

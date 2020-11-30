@@ -6,6 +6,7 @@ let myPlotVis;
 let plotPlatform = "Netflix";
 let myGenreSelector;
 let platforms = ["Netflix", "Hulu", "Prime Video", "Disney+"];
+let filteredData;
 
 let promises = [
   d3.csv("data/movies_on_streaming_platforms.csv", function (d) {

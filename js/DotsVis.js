@@ -74,16 +74,16 @@ class DotsVis {
     var IMDbValue = parseInt(document.getElementById("IMDb").value);
     var RTValue = parseInt(document.getElementById("rottenTomatoes").value);
     var AgeValue = parseInt(document.getElementById("Age").value);
-    vis.filteredData = vis.movieData.filter((x) => {
+
+    filteredData = vis.movieData.filter((x) => {
       return (
         x.IMDb >= IMDbValue &&
         x["Rotten Tomatoes"] >= RTValue / 100 &&
         x.Age <= AgeValue
       );
     });
-    console.log("filtered", vis.filteredData);
 
-    vis.filteredData.forEach((movie) => {
+    filteredData.forEach((movie) => {
       for (let platform of platforms) {
         if (movie[platform]) {
           vis.platforms[platform].add(movie.Id);

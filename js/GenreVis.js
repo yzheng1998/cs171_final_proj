@@ -158,7 +158,6 @@ class GenreVis {
 
     // vis.updateVis();
     vis.filterData();
-    vis.filtering = "";
   }
 
   filterData() {
@@ -166,6 +165,40 @@ class GenreVis {
     vis.displayData = vis.arrayGenre;
 
     let platforms = ["Disney+", "Hulu", "Netflix", "Prime Video"];
+
+
+    vis.remove = ["Film-Noir", "Biography", "Game-Show", "News", "Reality-TV", "Short", "Talk-Show", "War", "Western"]
+
+    // vis.filtered = {
+    //   0: [],
+    //   1: [],
+    //   2: [],
+    //   3: []
+    // }
+
+    vis.filtered = [[],[],[],[]];
+
+    Object.keys(vis.arrayGenre).map((key) =>{
+      var other = 0;
+      let platform;
+      console.log("break")
+      for (let i of vis.arrayGenre[key]){
+        if(!vis.remove.includes(i.genre)){
+          vis.filtered[key].push(i)
+        }
+        if(vis.remove.includes(i.genre)){
+          other = other + i.percent;
+          platform = i.platform;
+        }
+      }
+      vis.filtered[key].push({
+        genre: "Other",
+        percent: other,
+        platform: platform
+      })
+    })
+
+    console.log(vis.filtered)
 
     // if (vis.filtering){
     //     if (platforms.indexOf(vis.filtering) != -1){
@@ -204,10 +237,24 @@ class GenreVis {
       color: vis.color, //Color function
     };
 
-    // setup radial axes
-    var allAxis = vis.genreBreakdown.Netflix.map(function (i, j) {
-        return i.genre;
-      }), //Names of each axis
+    //setup radial axes
+    var allAxis = []; //Names of each axis
+
+    vis.genreBreakdown.Netflix.map(function (i, j) {
+      if(!vis.remove.includes(i.genre)){
+        allAxis.push(i.genre);
+      }
+    })
+
+    allAxis.push("Other")
+
+    // var allAxis = vis.genreBreakdown.Netflix.map(function (i, j) {
+    //         return i.genre;
+    //   });
+    //
+    // console.log(allAxis)
+
+    var
       total = allAxis.length, //The number of different axes
       radius = Math.min(cfg.w / 2, cfg.h / 2), //Radius of the outermost circle
       Format = d3.format(".0%"), //Percentage formatting
@@ -358,7 +405,7 @@ class GenreVis {
     //Create a wrapper for the blobs
     var blobWrapper = g
       .selectAll(".radarWrapper")
-      .data(vis.displayData)
+      .data(vis.filtered)
       .enter()
       .append("g")
       .attr("class", "radarWrapper");

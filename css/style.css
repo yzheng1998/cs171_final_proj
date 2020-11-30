@@ -60,7 +60,7 @@ section {
 }
 #radial-genre-vis {
   width: 100%;
-  height: 100vh;
+  height: 70vh;
 }
 /* .section {
   height: 100%;
@@ -158,3 +158,31 @@ nav#dot-nav a.active {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
   pointer-events: none;
 }
+
+.btn{
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 80px;
+  color: black;
+}
+
+#button-all{
+  background-color: lightgrey;
+}
+
+#button-disney{
+  background-color: #66a1ed;
+}
+
+#button-hulu{
+  background-color: #7de39f;
+}
+
+#button-netflix{
+  background-color: #E50914;
+}
+
+#button-prime{
+  background-color: #edbc51;
+}
+

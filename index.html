@@ -138,13 +138,16 @@
             platform you want to filter the map by specifically in the
             drop-down!
           </h6>
-          <div id="map-vis"></div>
+          <div class="row">
+            <div class="col-7" id="map-vis"></div>
+            <div class="col-5" id="radial-genre-vis"></div>
+          </div>
           <div class="btn-group" id="map-selector" role="group">
-            <button type="button" class="btn btn-secondary active">All</button>
-            <button type="button" class="btn btn-secondary">Netflix</button>
-            <button type="button" class="btn btn-secondary">Hulu</button>
-            <button type="button" class="btn btn-secondary">Disney +</button>
-            <button type="button" class="btn btn-secondary">
+            <button type="button" class="btn btn-secondary rounded" id="button-all" value="All">All</button>
+            <button type="button" class="btn btn-secondary rounded" id="button-netflix" value="Netflix">Netflix</button>
+            <button type="button" class="btn btn-secondary rounded" id="button-hulu" value="Hulu">Hulu</button>
+            <button type="button" class="btn btn-secondary rounded" id="button-disney" value="Disney+">Disney +</button>
+            <button type="button" class="btn btn-secondary rounded" id="button-prime" value="Prime Video">
               Amazon Prime
             </button>
           </div>

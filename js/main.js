@@ -11,7 +11,7 @@ let promises = [
   d3.csv("data/movies_on_streaming_platforms.csv", function (d) {
     return {
       Country: d.Country,
-      Age: d.Age ? d.Age.slice(0, -1) : null,
+      Age: d.Age ? parseInt(d.Age.slice(0, -1)) : null,
       Directors: d.Directors,
       "Disney+": +d["Disney+"],
       Hulu: +d.Hulu,
@@ -46,16 +46,3 @@ function gettingStarted([moviesData, countryData, geoData, genresData]) {
   myGenreSelector = new GenreSelector("genres", genresData.columns.slice(1));
   myPlotVis = new PlotVis("results-vis", moviesData, genresData);
 }
-
-d3.select("#plot-platform").on("change", () => {
-  let value = d3.select("#plot-platform").property("value");
-
-  plotPlatform = value;
-
-  myPlotVis.wrangleData();
-});
-
-$("#genres").on("select2:closing", function (event) {
-  myDotsVis.wrangleData();
-  myPlotVis.wrangleData();
-});

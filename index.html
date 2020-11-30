@@ -183,6 +183,43 @@
         </div>
         <div class="col-md-4 exploratory-filter">
           <select id="genres" multiple="multiple"></select>
+          <div>
+            <label for="rottenTomatoes"
+              >Min Rotten Tomatoes Score: <span id="rottenTomatoesValue"></span
+            ></label>
+            <input
+              type="range"
+              class="custom-range"
+              min="0"
+              max="100"
+              value="50"
+              id="rottenTomatoes"
+            />
+          </div>
+          <div>
+            <label for="IMDb"
+              >Min IMDb Score: <span id="IMDbValue"></span
+            ></label>
+            <input
+              type="range"
+              class="custom-range"
+              min="0"
+              max="10"
+              value="5"
+              id="IMDb"
+            />
+          </div>
+          <div>
+            <label for="IMDb">Max Age: <span id="AgeValue"></span></label>
+            <input
+              type="range"
+              class="custom-range"
+              min="0"
+              max="30"
+              value="0"
+              id="Age"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -313,5 +350,6 @@
     <script src="js/GenreVis.js"></script>
     <script src="js/PlotVis.js"></script>
     <script src="js/GenreSelector.js"></script>
+    <script src="js/DotsFilters.js"></script>
   </body>
 </html>

@@ -63,8 +63,6 @@ class DotsVis {
 
     var selectedGenres = $("#genres").val();
 
-    // first, filter according to selectedTimeRange, init empty array
-    let filteredData = [];
     vis.displayData = [];
     vis.platforms = {
       Netflix: new Set(),
@@ -73,15 +71,25 @@ class DotsVis {
       "Disney+": new Set(),
     };
 
-    vis.movieData.forEach((movie) => {
+    var IMDbValue = parseInt(document.getElementById("IMDb").value);
+    var RTValue = parseInt(document.getElementById("rottenTomatoes").value);
+    var AgeValue = parseInt(document.getElementById("Age").value);
+    vis.filteredData = vis.movieData.filter((x) => {
+      return (
+        x.IMDb >= IMDbValue &&
+        x["Rotten Tomatoes"] >= RTValue / 100 &&
+        x.Age <= AgeValue
+      );
+    });
+    console.log("filtered", vis.filteredData);
+
+    vis.filteredData.forEach((movie) => {
       for (let platform of platforms) {
         if (movie[platform]) {
           vis.platforms[platform].add(movie.Id);
         }
       }
     });
-
-    console.log(vis.platforms);
 
     vis.genreCount = {};
 
@@ -230,7 +238,7 @@ class DotsVis {
       .force("cluster", forceCluster)
       .on("tick", tick);
 
-    vis.force.alpha(0.4).alphaTarget(0).restart();
+    vis.force.alpha(0.1).alphaTarget(0).restart();
 
     // Drag functions used for interactivity
     function dragstarted(event, d) {

@@ -40,10 +40,18 @@ Promise.all(promises).then((data) => {
 });
 
 function gettingStarted([moviesData, countryData, geoData, genresData]) {
+  var genresCount = genresData.reduce((acc, cur) => {
+    for (var key in cur) {
+      if (key === "") continue;
+      acc[key] = (parseInt(acc[key]) || 0) + parseInt(cur[key]);
+    }
+    return acc;
+  }, {});
+
   // myChordChart = new ChordChart("chord-vis", moviesData);
   myMapVis = new MapVis("map-vis", countryData, geoData, moviesData);
   myDotsVis = new DotsVis("exploratory-vis", moviesData, genresData);
   myGenreVis = new GenreVis("radial-genre-vis", moviesData, genresData);
-  myGenreSelector = new GenreSelector("genres", genresData.columns.slice(1));
+  myGenreSelector = new GenreSelector("genres", genresCount);
   myPlotVis = new PlotVis("results-vis", moviesData, genresData);
 }

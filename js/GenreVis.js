@@ -9,7 +9,7 @@ class GenreVis {
   initVis() {
     let vis = this;
 
-    vis.margin = { top: 90, right: 20, bottom: 20, left: 50 };
+    vis.margin = { top: 20, right: 20, bottom: 20, left: 50 };
     vis.width =
       $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right;
     vis.height =
@@ -158,7 +158,6 @@ class GenreVis {
 
     // vis.updateVis();
     vis.filterData();
-    vis.filtering = "";
   }
 
   filterData() {
@@ -166,6 +165,40 @@ class GenreVis {
     vis.displayData = vis.arrayGenre;
 
     let platforms = ["Disney+", "Hulu", "Netflix", "Prime Video"];
+
+
+    vis.remove = ["Film-Noir", "Biography", "Game-Show", "News", "Reality-TV", "Short", "Talk-Show", "War", "Western"]
+
+    // vis.filtered = {
+    //   0: [],
+    //   1: [],
+    //   2: [],
+    //   3: []
+    // }
+
+    vis.filtered = [[],[],[],[]];
+
+    Object.keys(vis.arrayGenre).map((key) =>{
+      var other = 0;
+      let platform;
+      console.log("break")
+      for (let i of vis.arrayGenre[key]){
+        if(!vis.remove.includes(i.genre)){
+          vis.filtered[key].push(i)
+        }
+        if(vis.remove.includes(i.genre)){
+          other = other + i.percent;
+          platform = i.platform;
+        }
+      }
+      vis.filtered[key].push({
+        genre: "Other",
+        percent: other,
+        platform: platform
+      })
+    })
+
+    console.log(vis.filtered)
 
     // if (vis.filtering){
     //     if (platforms.indexOf(vis.filtering) != -1){
@@ -204,10 +237,24 @@ class GenreVis {
       color: vis.color, //Color function
     };
 
-    // setup radial axes
-    var allAxis = vis.genreBreakdown.Netflix.map(function (i, j) {
-        return i.genre;
-      }), //Names of each axis
+    //setup radial axes
+    var allAxis = []; //Names of each axis
+
+    vis.genreBreakdown.Netflix.map(function (i, j) {
+      if(!vis.remove.includes(i.genre)){
+        allAxis.push(i.genre);
+      }
+    })
+
+    allAxis.push("Other")
+
+    // var allAxis = vis.genreBreakdown.Netflix.map(function (i, j) {
+    //         return i.genre;
+    //   });
+    //
+    // console.log(allAxis)
+
+    var
       total = allAxis.length, //The number of different axes
       radius = Math.min(cfg.w / 2, cfg.h / 2), //Radius of the outermost circle
       Format = d3.format(".0%"), //Percentage formatting
@@ -358,7 +405,7 @@ class GenreVis {
     //Create a wrapper for the blobs
     var blobWrapper = g
       .selectAll(".radarWrapper")
-      .data(vis.displayData)
+      .data(vis.filtered)
       .enter()
       .append("g")
       .attr("class", "radarWrapper");
@@ -391,10 +438,10 @@ class GenreVis {
 
         vis.svg.select("#stroke" + idx).style("stroke-opacity", 1);
 
-        vis.svg
-          .select("#label" + idx)
-          .attr("fill", vis.color(idx))
-          .attr("fill-opacity", 0.5);
+        // vis.svg
+        //   .select("#label" + idx)
+        //   .attr("fill", vis.color(idx))
+        //   .attr("fill-opacity", 0.5);
 
         // vis.svg.select("#label"+i)
         //     .style("fill", cfg.color(i))
@@ -413,12 +460,12 @@ class GenreVis {
 
         vis.svg.selectAll(".radarStroke").style("stroke-opacity", 1);
 
-        const idx = platforms.indexOf(i[0].platform);
-
-        vis.svg
-          .select("#label" + idx)
-          .attr("fill", vis.color(idx))
-          .attr("fill-opacity", 0.1);
+        // const idx = platforms.indexOf(i[0].platform);
+        //
+        // vis.svg
+        //   .select("#label" + idx)
+        //   .attr("fill", vis.color(idx))
+        //   .attr("fill-opacity", 0.1);
       });
 
     //Create the outlines
@@ -437,85 +484,80 @@ class GenreVis {
       .style("filter", "url(#glow)");
 
     // add hover buttons
-    vis.labels = vis.svg.append("g").attr("class", "platform-labels");
-
-    vis.labelButtons = vis.labels
-      .selectAll(".platform-labels-rect")
-      .data(platforms)
-      .enter();
-
-    vis.labels
-      .selectAll(".platforms-labels-text")
-      .data(platforms)
-      .enter()
-      .append("text")
-      .attr("class", "platform-labels-text")
-      .attr("x", function (d, i) {
-        return (vis.width / 4) * i + 60;
-      })
-      .attr("y", -25)
-      .text(function (d, i) {
-        return d;
-      })
-      .attr("fill", "black")
-      .attr("dominant-baseline", "middle")
-      .attr("text-anchor", "middle");
-
-    vis.labelButtons
-      .append("rect")
-      .attr("class", "platform-labels-rect")
-      .attr("width", 120)
-      .attr("height", 50)
-      .attr("stroke-width", 2)
-      .attr("stroke", function (d, i) {
-        return vis.color(i);
-      })
-      .attr("fill", function (d, i) {
-        return vis.color(i);
-      })
-      .attr("fill-opacity", 0.1)
-      .attr("x", function (d, i) {
-        return (vis.width / 4) * i;
-      })
-      .attr("y", -50)
-      .attr("rx", 5)
-      .attr("id", function (d, i) {
-        return "label" + i;
-      })
-      .on("mouseover", function (d, i) {
-        //Dim all blobs
-        vis.svg
-          .selectAll(".radarArea")
-          // .transition().duration(200)
-          .style("fill-opacity", 0.05);
-
-        vis.svg.selectAll(".radarStroke").style("stroke-opacity", 0.2);
-
-        d3.select(this).attr("fill-opacity", 0.5);
-
-        const idx = platforms.indexOf(i);
-        // // highlight blob
-
-        vis.svg.select("#stroke" + idx).style("stroke-opacity", 1);
-
-        vis.svg.selectAll("#blob" + idx).style("fill-opacity", 1);
-      })
-      .on("mouseout", function (d, i) {
-        //Dim all blobs
-        vis.svg
-          .selectAll(".radarArea")
-          // .transition().duration(200)
-          .style("fill-opacity", cfg.opacityArea);
-
-        vis.svg.selectAll(".radarStroke").style("stroke-opacity", 1);
-
-        d3.select(this).attr("fill-opacity", 0.1);
-      })
-      .on("click", function (data, i) {
-        // vis.filtering = (vis.filtering) ? "" : i;
-        // vis.filterData();
-        // blobWrapper.exit().remove();
-      });
+    // vis.labels = vis.svg.append("g").attr("class", "platform-labels");
+    //
+    // vis.labelButtons = vis.labels
+    //   .selectAll(".platform-labels-rect")
+    //   .data(platforms)
+    //   .enter();
+    //
+    // vis.labels
+    //   .selectAll(".platforms-labels-text")
+    //   .data(platforms)
+    //   .enter()
+    //   .append("text")
+    //   .attr("class", "platform-labels-text")
+    //   .attr("x", function (d, i) {
+    //     return (vis.width / 4) * i + 60;
+    //   })
+    //   .attr("y", -25)
+    //   .text(function (d, i) {
+    //     return d;
+    //   })
+    //   .attr("fill", "black")
+    //   .attr("dominant-baseline", "middle")
+    //   .attr("text-anchor", "middle");
+    //
+    // vis.labelButtons
+    //   .append("rect")
+    //   .attr("class", "platform-labels-rect")
+    //   .attr("width", 120)
+    //   .attr("height", 50)
+    //   .attr("stroke-width", 2)
+    //   .attr("stroke", function (d, i) {
+    //     return vis.color(i);
+    //   })
+    //   .attr("fill", function (d, i) {
+    //     return vis.color(i);
+    //   })
+    //   .attr("fill-opacity", 0.1)
+    //   .attr("x", function (d, i) {
+    //     return (vis.width / 4) * i;
+    //   })
+    //   .attr("y", -50)
+    //   .attr("rx", 5)
+    //   .attr("id", function (d, i) {
+    //     return "label" + i;
+    //   })
+    //   .on("mouseover", function (d, i) {
+    //     //Dim all blobs
+    //     vis.svg
+    //       .selectAll(".radarArea")
+    //       // .transition().duration(200)
+    //       .style("fill-opacity", 0.05);
+    //
+    //     vis.svg.selectAll(".radarStroke").style("stroke-opacity", 0.2);
+    //
+    //     d3.select(this).attr("fill-opacity", 0.5);
+    //
+    //     const idx = platforms.indexOf(i);
+    //     // // highlight blob
+    //
+    //     vis.svg.select("#stroke" + idx).style("stroke-opacity", 1);
+    //
+    //     vis.svg.selectAll("#blob" + idx).style("fill-opacity", 1);
+    //   })
+    //   .on("mouseout", function (d, i) {
+    //     //Dim all blobs
+    //     vis.svg
+    //       .selectAll(".radarArea")
+    //       // .transition().duration(200)
+    //       .style("fill-opacity", cfg.opacityArea);
+    //
+    //     vis.svg.selectAll(".radarStroke").style("stroke-opacity", 1);
+    //
+    //     d3.select(this).attr("fill-opacity", 0.1);
+    //   });
 
     // Text indicating at what % each level is
     g.append("g")
@@ -546,5 +588,51 @@ class GenreVis {
     //     .attr("cy", (d,i) => rScale(d.percent) * Math.sin(angleSlice * i - Math.PI / 2))
     //     .style("fill", (d) => cfg.color(d.id))
     //     .style("fill-opacity", 0);
+
+    $('#button-disney').on('click', function(e){
+      highlight(e)
+    })
+
+    $('#button-prime').on('click', function(e){
+      highlight(e)
+    })
+
+    $('#button-hulu').on('click', function(e){
+      highlight(e)
+    })
+
+    $('#button-netflix').on('click', function(e){
+      highlight(e)
+    })
+
+    $('#button-all').on('click', function(e){
+      return_all()
+    })
+
+
+    function highlight(e){
+      const idx = platforms.indexOf($("#" + e.target.id).val());
+      vis.svg
+          .selectAll(".radarArea")
+          // .transition().duration(200)
+          .style("fill-opacity", 0.05);
+      vis.svg.selectAll(".radarStroke").style("stroke-opacity", 0.05);
+
+      // highlight disney
+      vis.svg.select("#stroke" + idx).style("stroke-opacity", 1);
+      vis.svg.select("#blob" + idx).style("fill-opacity", 1);
+    }
+
+    function return_all(){
+      //Bring back all blobs
+      vis.svg
+          .selectAll(".radarArea")
+          // .transition().duration(200)
+          .style("fill-opacity", cfg.opacityArea);
+
+      vis.svg.selectAll(".radarStroke").style("stroke-opacity", 1);
+    }
+
+
   }
 }

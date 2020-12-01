@@ -142,22 +142,31 @@
             <div class="col-7" id="map-vis"></div>
             <div class="col-5" id="radial-genre-vis"></div>
           </div>
-          <div class="btn-group" id="map-selector" role="group">
-            <button type="button" class="btn btn-secondary rounded" id="button-all" value="All">All</button>
-            <button type="button" class="btn btn-secondary rounded" id="button-netflix" value="Netflix">Netflix</button>
-            <button type="button" class="btn btn-secondary rounded" id="button-hulu" value="Hulu">Hulu</button>
-            <button type="button" class="btn btn-secondary rounded" id="button-disney" value="Disney+">Disney +</button>
-            <button type="button" class="btn btn-secondary rounded" id="button-prime" value="Prime Video">
-              Amazon Prime
-            </button>
+          <div class="btn-group" id="map-selector" data-toggle="buttons">
+            <label class="btn btn-primary rounded active" id="button-all-label">
+              <input type="radio" value="All" id="button-all" checked> All
+            </label>
+            <label class="btn btn-primary rounded" id="button-netflix-label">
+              <input type="radio" value="Netflix" id="button-netflix"> Netflix
+            </label>
+            <label class="btn btn-primary rounded" id="button-hulu-label">
+              <input type="radio" value="Hulu" id="button-hulu"> Hulu
+            </label>
+            <label class="btn btn-primary rounded" id="button-disney-label">
+              <input type="radio" value="Disney+" id="button-disney"> Disney +
+            </label>
+            <label class="btn btn-primary rounded" id="button-prime-label">
+              <input type="radio" value="Prime Video" id="button-prime"> Prime Video
+            </label>
+          </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section>
+    <!-- <section> -->
       <!-- genre profile radial visualization -->
-      <h4>What is the genre profile of each platform?</h4>
+      <!-- <h4>What is the genre profile of each platform?</h4>
       <h6>
         Each axis represents a different genre from the top 10 genres across all
         streaming services. For each streaming service, its distribution of
@@ -165,7 +174,7 @@
         representation of the genre profile and breakdown of content by genre.
       </h6>
       <div id="radial-genre-vis"></div>
-    </section>
+    </section> -->
 
     <!-- chord diagram of overlapping content -->
     <!--            <div id="chord-vis" style="height: 500px; width: 500px;"></div>-->

@@ -108,15 +108,38 @@ class MapVis {
 
   wrangleData() {
     let vis = this;
-    $("#map-selector");
+    let filter = "";
+    $("#button-disney").on("click", function (e) {
+      filter = "disney";
+    });
 
-    vis.countryInfo = vis.countryData.reduce(function (acc, curVal) {
+    $("#button-prime").on("click", function (e) {
+      filter = "prime";
+    });
+
+    $("#button-hulu").on("click", function (e) {
+      filter = "hulu";
+    });
+
+    $("#button-netflix").on("click", function (e) {
+      filter = "netflix";
+    });
+
+    $("#button-all").on("click", function (e) {
+      filter = "";
+    });
+    console.log("filter", vis.moviesData);
+
+    vis.countryInfo = vis.countryData.reduce(function (acc, curVal, i) {
+      // if vis.moviesData.
       vis.geoData.objects.countries.geometries.forEach((country) => {
         const { name } = country.properties;
         acc[name] = (acc[name] || 0) + parseInt(curVal[name]);
       });
       return acc;
     }, {});
+
+    console.log("countryInfo", vis.countryData);
 
     vis.updateVis();
   }

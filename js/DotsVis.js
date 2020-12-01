@@ -238,7 +238,7 @@ class DotsVis {
       .force("cluster", forceCluster)
       .on("tick", tick);
 
-    vis.force.alpha(0.2).restart();
+    // vis.force.alpha(0.2).restart();
 
     // Drag functions used for interactivity
     function dragstarted(event, d) {

@@ -159,30 +159,29 @@ nav#dot-nav a.active {
   pointer-events: none;
 }
 
-.btn{
+.btn {
   margin-left: 10px;
   margin-right: 10px;
   width: 80px;
   color: black;
 }
 
-#button-all{
+#button-all-label {
   background-color: lightgrey;
 }
 
-#button-disney{
+#button-disney-label {
   background-color: #66a1ed;
 }
 
-#button-hulu{
+#button-hulu-label {
   background-color: #7de39f;
 }
 
-#button-netflix{
-  background-color: #E50914;
+#button-netflix-label {
+  background-color: #e50914;
 }
 
-#button-prime{
+#button-prime-label {
   background-color: #edbc51;
 }
-

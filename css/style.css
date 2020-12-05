@@ -164,6 +164,7 @@ nav#dot-nav a.active {
   margin-right: 10px;
   width: 80px;
   color: black;
+  border-color: black;
 }
 
 #button-all-label {
@@ -184,4 +185,8 @@ nav#dot-nav a.active {
 
 #button-prime-label {
   background-color: #edbc51;
+}
+
+.btn.active {
+  border-color: black;
 }

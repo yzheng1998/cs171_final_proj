@@ -37,7 +37,7 @@ class MapVis {
       .append("g")
       .attr("class", "title map-title")
       .append("text")
-      .text("Movie Availability Across the World")
+      .text("Where are movies produced?")
       .attr("transform", `translate(${vis.width / 2}, 20)`)
       .attr("text-anchor", "middle");
 
@@ -50,7 +50,7 @@ class MapVis {
 
     vis.svg
       .append("path")
-      .datum(d3.geoGraticule())
+      // .datum(d3.geoGraticule())
       .attr("class", "graticule")
       .attr("fill", "rgba(0, 0, 0, 0)")
       .attr("stroke", "rgba(129,129,129,0.35)")
@@ -74,6 +74,16 @@ class MapVis {
       .append("div")
       .attr("class", "tooltip")
       .attr("id", "mapTooltip");
+
+    vis.centroids = vis.countries.data().reduce(
+      (obj, item) =>
+        Object.assign(obj, {
+          [item.properties.name]: vis.path.centroid(item),
+        }),
+      {}
+    );
+    // hardcode France's Centroid
+    vis.centroids.France = [180.54553255080222, 165.14844120403816];
 
     // vis.legend = vis.svg
     //   .append("g")
@@ -108,38 +118,21 @@ class MapVis {
 
   wrangleData() {
     let vis = this;
-    let filter = "";
-    $("#button-disney").on("click", function (e) {
-      filter = "disney";
-    });
+    vis.filteredCountryData = vis.countryData;
 
-    $("#button-prime").on("click", function (e) {
-      filter = "prime";
-    });
+    if (mapFilter !== "") {
+      vis.filteredCountryData = vis.countryData.filter(
+        (val, i) => vis.moviesData[i][mapFilter]
+      );
+    }
 
-    $("#button-hulu").on("click", function (e) {
-      filter = "hulu";
-    });
-
-    $("#button-netflix").on("click", function (e) {
-      filter = "netflix";
-    });
-
-    $("#button-all").on("click", function (e) {
-      filter = "";
-    });
-    console.log("filter", vis.moviesData);
-
-    vis.countryInfo = vis.countryData.reduce(function (acc, curVal, i) {
-      // if vis.moviesData.
+    vis.countryInfo = vis.filteredCountryData.reduce(function (acc, curVal) {
       vis.geoData.objects.countries.geometries.forEach((country) => {
         const { name } = country.properties;
-        acc[name] = (acc[name] || 0) + parseInt(curVal[name]);
+        acc[name] = (acc[name] || 0) + (parseInt(curVal[name]) || 0);
       });
       return acc;
     }, {});
-
-    console.log("countryInfo", vis.countryData);
 
     vis.updateVis();
   }
@@ -147,28 +140,44 @@ class MapVis {
   updateVis() {
     let vis = this;
 
-    vis.svg
-      .selectAll("circle")
-      .data(Object.entries(vis.countryInfo))
+    vis.circles = vis.svg.selectAll("circle").data(
+      Object.entries(vis.countryInfo).sort((a, b) => {
+        if (a[0] < b[0]) return -1;
+        if (a[0] > b[0]) return 1;
+        return 0;
+      }),
+      function (d) {
+        return d[0];
+      }
+    );
+
+    var platformColors = {
+      Hulu: "#7de39f88",
+      Netflix: "#e5091488",
+      "Disney+": "#66a1ed88",
+      "Prime Video": "#edbc5188",
+    };
+
+    vis.circles.exit().transition().duration(750).remove();
+
+    vis.circles
       .enter()
       .append("circle")
       .attr("class", "bubble")
+      .merge(vis.circles)
       .attr("r", function ([country, value]) {
         return value ? Math.sqrt(value) / 2 : 0;
       })
-      .attr("fill", "rgba(255, 0, 0, .2)")
+      .attr("fill", (d) => {
+        return platformColors[mapFilter] || "rgba(225, 225, 225, .2)";
+      })
       .attr("stroke", "black")
       .attr("stroke-width", 0.2)
       // using the map data
       // position a circle for matches in cd array
       .attr("transform", function ([country, value]) {
-        for (var i = 0; i < vis.countries.data().length; i++) {
-          var p = vis.countries.data()[i];
-          if (p.properties.name === country) {
-            var t = vis.path.centroid(p);
-            return "translate(" + t + ")";
-          }
-        }
+        var t = vis.centroids[country];
+        return "translate(" + t + ")";
       })
       .on("mouseover", function (event, d) {
         d3.select(this).attr("stroke-width", "1px");

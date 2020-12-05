@@ -7,6 +7,7 @@ let plotPlatform = "Netflix";
 let myGenreSelector;
 let platforms = ["Netflix", "Hulu", "Prime Video", "Disney+"];
 let filteredData;
+let mapFilter = "";
 
 let promises = [
   d3.csv("data/movies_on_streaming_platforms.csv", function (d) {
@@ -55,3 +56,28 @@ function gettingStarted([moviesData, countryData, geoData, genresData]) {
   myGenreSelector = new GenreSelector("genres", genresCount);
   myPlotVis = new PlotVis("results-vis", moviesData, genresData);
 }
+
+$("#button-disney").on("click", function (e) {
+  mapFilter = "Disney+";
+  myMapVis.wrangleData();
+});
+
+$("#button-prime").on("click", function (e) {
+  mapFilter = "Prime Video";
+  myMapVis.wrangleData();
+});
+
+$("#button-hulu").on("click", function (e) {
+  mapFilter = "Hulu";
+  myMapVis.wrangleData();
+});
+
+$("#button-netflix").on("click", function (e) {
+  mapFilter = "Netflix";
+  myMapVis.wrangleData();
+});
+
+$("#button-all").on("click", function (e) {
+  mapFilter = "";
+  myMapVis.wrangleData();
+});

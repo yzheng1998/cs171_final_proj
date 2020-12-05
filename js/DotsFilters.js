@@ -28,6 +28,7 @@ outputIMDb.innerHTML = sliderIMDb.value; // Display the default slider value
 
 // Update the current slider value (each time you drag the slider handle)
 sliderIMDb.oninput = function () {
+  console.log("oninput");
   outputIMDb.innerHTML = this.value;
   myDotsVis.wrangleData();
   myPlotVis.wrangleData();

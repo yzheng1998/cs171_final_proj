@@ -125,7 +125,7 @@ class DotsVis {
     // create nodes
     var nodes = Object.entries(vis.genreCount).map(([platformGenre, count]) => {
       const [platform, genre] = platformGenre.split(",");
-      let scaledRadius = Math.sqrt(count),
+      let scaledRadius = Math.sqrt(count) * 2,
         forcedCluster = vis.cs.indexOf(platform);
 
       // add cluster id and radius to array
@@ -238,7 +238,7 @@ class DotsVis {
       .force("cluster", forceCluster)
       .on("tick", tick);
 
-    // vis.force.alpha(0.2).restart();
+    vis.force.alpha(0.2).restart();
 
     // Drag functions used for interactivity
     function dragstarted(event, d) {

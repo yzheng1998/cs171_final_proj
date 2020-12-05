@@ -142,31 +142,60 @@
             <div class="col-7" id="map-vis"></div>
             <div class="col-5" id="radial-genre-vis"></div>
           </div>
-          <div class="btn-group" id="map-selector" data-toggle="buttons">
+          <div
+            class="btn-group btn-group-toggle"
+            id="map-selector"
+            data-toggle="buttons"
+          >
             <label class="btn btn-primary rounded active" id="button-all-label">
-              <input type="radio" value="All" id="button-all" checked> All
-            </label>
+              <input
+                type="radio"
+                value="All"
+                id="button-all"
+                name="platform"
+                checked
+              />All</label
+            >
             <label class="btn btn-primary rounded" id="button-netflix-label">
-              <input type="radio" value="Netflix" id="button-netflix"> Netflix
-            </label>
+              <input
+                type="radio"
+                value="Netflix"
+                id="button-netflix"
+                name="platform"
+              />Netflix</label
+            >
             <label class="btn btn-primary rounded" id="button-hulu-label">
-              <input type="radio" value="Hulu" id="button-hulu"> Hulu
-            </label>
+              <input
+                type="radio"
+                value="Hulu"
+                id="button-hulu"
+                name="platform"
+              />Hulu</label
+            >
             <label class="btn btn-primary rounded" id="button-disney-label">
-              <input type="radio" value="Disney+" id="button-disney"> Disney +
-            </label>
+              <input
+                type="radio"
+                value="Disney+"
+                id="button-disney"
+                name="platform"
+              />Disney +</label
+            >
             <label class="btn btn-primary rounded" id="button-prime-label">
-              <input type="radio" value="Prime Video" id="button-prime"> Prime Video
-            </label>
-          </div>
+              <input
+                type="radio"
+                value="Prime Video"
+                id="button-prime"
+                name="platform"
+              />Prime Video</label
+            >
           </div>
         </div>
       </div>
     </section>
 
     <!-- <section> -->
-      <!-- genre profile radial visualization -->
-      <!-- <h4>What is the genre profile of each platform?</h4>
+    <!-- genre profile radial visualization -->
+    <!-- <h4>What is the genre profile of each platform?</h4>
       <h6>
         Each axis represents a different genre from the top 10 genres across all
         streaming services. For each streaming service, its distribution of

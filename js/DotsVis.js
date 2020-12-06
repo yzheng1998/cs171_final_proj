@@ -153,6 +153,7 @@ class DotsVis {
       }
     });
 
+
     vis.updateVis();
   }
 
@@ -329,4 +330,5 @@ class DotsVis {
       d.fy = null;
     }
   }
+
 }

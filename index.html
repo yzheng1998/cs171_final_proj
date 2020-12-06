@@ -137,7 +137,7 @@
             Perhaps you prefer thrillers over romance? Let's look at a breakdown
             each platform's movies by country of production and by genre.
           </h4>
-          <h6>Click to toggle between platforms:</h6>
+          <h6>Click to toggle between platforms:</h6>s
           <div
             class="btn-group btn-group-toggle"
             id="map-selector"
@@ -199,6 +199,10 @@
               <div class="row" id="radial-genre-vis"></div>
             </div>
           </div>
+<!--          <div id="map-vis"></div>-->
+<!--          <div class="row" style="height: 18vh">-->
+<!--            <div id="brushDiv" style="height: 100%; width: 100%"></div>-->
+<!--          </div>-->
         </div>
       </div>
     </section>
@@ -277,7 +281,7 @@
     <section>
       <div class="row section" id="section5">
         <div class="col-md-12">
-          <h2 class="title">These are your viewing preferences.</h2>
+          <h2 class="title">These are your viewing preferences based on your filtered results.</h2>
           <h6>
             Take a look at how your viewing preferences map onto the streaming
             platforms.
@@ -317,11 +321,11 @@
                 </div>
               </form>
 
-              <!-- <table class="table">
+              <table class="table">
                 <thead>
                   <tr>
                     <th scope="col">Platform</th>
-                    <th scope="col">Count</th>
+                    <th scope="col">Number of Movies</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -342,7 +346,7 @@
                     <td id="prime-video-count"></td>
                   </tr>
                 </tbody>
-              </table> -->
+              </table>
             </div>
           </div>
         </div>
@@ -350,19 +354,22 @@
     </section>
 
     <!-- section 6: final results-->
-    <!-- <section>
+    <section>
       <div class="row section" id="section6">
         <div class="col-md-12">
-          <h2 class="title">We think that XYZ is the best platform for you!</h2>
-          <h6>
-            Based on your viewing preferences, we think XYZ platform is most
-            suited for you because it has: <br />
-            the greatest number of ABC genres, <br />XX% of content with a XX%
-            rotten tomatoes rating, <br />and the most content from CountryName.
+          <h2 class="title" id="final-chosen-platform"></h2>
+          <h6 id="fcp-description">
+<!--            Based on your viewing preferences, we think XYZ platform is most-->
+<!--            suited for you because it has: <br />-->
+<!--            the greatest number of ABC genres, <br />XX% of content with a XX%-->
+<!--            rotten tomatoes rating, <br />and the most content from CountryName.-->
           </h6>
+          <div id="fcp-image-container">
+
+          </div>
         </div>
       </div>
-    </section> -->
+    </section>
 
     <!-- embedding JS libraries -->
     <script
@@ -396,5 +403,7 @@
     <script src="js/PlotVis.js"></script>
     <script src="js/GenreSelector.js"></script>
     <script src="js/DotsFilters.js"></script>
+
+
   </body>
 </html>

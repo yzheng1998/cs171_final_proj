@@ -15,7 +15,7 @@ class PlotVis {
   initVis() {
     let vis = this;
 
-    vis.margin = { top: 20, right: 20, bottom: 20, left: 40 };
+    vis.margin = { top: 20, right: 20, bottom: 30, left: 40 };
     vis.width =
       $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right;
     vis.height =
@@ -45,6 +45,23 @@ class PlotVis {
 
     vis.svg.append("g").attr("class", "y-axis axis");
 
+    vis.svg.append("text")
+        .attr("transform",
+            "translate(" + (vis.width/2) + " ," +
+            (vis.height + vis.margin.top + 10) + ")")
+        .style("text-anchor", "middle")
+        .style('font-size', '12px')
+        .text("Rotten Tomatoes Score");
+
+    vis.svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - vis.margin.left)
+        .attr("x",0 - (vis.height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .style('font-size', '12px')
+        .text("IMDB score");
+
     this.wrangleData();
   }
 
@@ -52,8 +69,80 @@ class PlotVis {
     let vis = this;
 
     vis.displayData = [];
+    vis.platformCounts = {
+      Netflix: 0,
+      Hulu: 0,
+      'Disney+': 0,
+      'Prime Video': 0,
+    };
+    // vis.netflixCount = {};
+    // vis.huluCount = {};
+    // vis.disneyCount = {};
+    // vis.primeCount = {};
 
     var selectedGenres = $("#genres").val();
+
+    console.log(selectedGenres);
+
+    filteredData.map(item => {
+      if (item.Netflix === 1 &&
+          (selectedGenres.length === 0 ||
+              selectedGenres.filter((value) =>
+                  item.Genres.split(",").includes(value)
+              ).length !== 0)) {
+        vis.platformCounts.Netflix += 1;
+      }
+
+      if (item.Hulu === 1 &&
+          (selectedGenres.length === 0 ||
+              selectedGenres.filter((value) =>
+                  item.Genres.split(",").includes(value)
+              ).length !== 0)) {
+        vis.platformCounts.Hulu += 1;
+      }
+
+      if (item['Disney+'] === 1 &&
+          (selectedGenres.length === 0 ||
+              selectedGenres.filter((value) =>
+                  item.Genres.split(",").includes(value)
+              ).length !== 0)) {
+        vis.platformCounts['Disney+'] += 1;
+      }
+
+      if (item['Prime Video'] === 1 &&
+          (selectedGenres.length === 0 ||
+              selectedGenres.filter((value) =>
+                  item.Genres.split(",").includes(value)
+              ).length !== 0)) {
+        vis.platformCounts['Prime Video'] += 1;
+      }
+    })
+
+
+
+    document.getElementById("netflix-count").innerHTML = vis.numberWithCommas(vis.platformCounts.Netflix);
+    document.getElementById("hulu-count").innerHTML = vis.numberWithCommas(vis.platformCounts.Hulu);
+    document.getElementById("disney-count").innerHTML =
+      vis.numberWithCommas(vis.platformCounts["Disney+"]);
+    document.getElementById("prime-video-count").innerHTML =
+      vis.numberWithCommas(vis.platformCounts["Prime Video"]);
+
+
+    vis.finalPlatform = Object.keys(vis.platformCounts).find(key => vis.platformCounts[key] === Math.max(vis.platformCounts.Netflix,
+        vis.platformCounts.Hulu,
+        vis.platformCounts["Disney+"],
+        vis.platformCounts["Prime Video"]));
+
+    console.log(vis.finalPlatform);
+
+
+    document.getElementById('final-chosen-platform').innerHTML = 'We think that ' +  vis.finalPlatform + ' is the best platform for you!'
+    document.getElementById('fcp-description').innerHTML =  'Based on your viewing preferences, we think ' +  vis.finalPlatform + ' is most ' +
+    'suited for you because it has ' + vis.numberWithCommas(vis.platformCounts[vis.finalPlatform]) + ' movies that: <br /> ' +
+    'have an IMDb rating of at least ' + document.getElementById("IMDb").value + ', <br />have a Rotten Tomatoes rating of at least ' + document.getElementById("rottenTomatoes").value +
+    ', <br />and fall under your preferred genres: ' + $("#genres").val().join(', ')
+
+    document.getElementById('fcp-image-container').innerHTML = '<img src="img/' + vis.finalPlatform + '.png" />'
 
     vis.displayData = filteredData.filter((movie) => {
       return (
@@ -65,6 +154,17 @@ class PlotVis {
         movie["Rotten Tomatoes"] !== null
       );
     });
+
+    //
+    // vis.netflixCount = vis.displayData.reduce((a, b) => ({Netflix: a.Netflix + b.Netflix}));
+    // vis.huluCount = vis.displayData.reduce((a, b) => ({Hulu: a.Hulu + b.Hulu}));
+    // vis.disneyCount = vis.displayData.reduce((a, b) => ({'Disney+': a['Disney+'] + b['Disney+']}));
+    // vis.primeCount = vis.displayData.reduce((a, b) => ({'Prime Video': a['Prime Video'] + b['Prime Video']}));
+    //
+    // console.log(vis.netflixCount)
+    // console.log(vis.huluCount)
+    // console.log(vis.disneyCount)
+    // console.log(vis.primeCount)
 
     // document.getElementById("netflix-count").innerHTML = platformCounts.Netflix;
     // document.getElementById("hulu-count").innerHTML = platformCounts.Hulu;
@@ -90,10 +190,11 @@ class PlotVis {
   updateVis() {
     let vis = this;
 
-    vis.x.domain(d3.extent(vis.displayData, (d) => d["Rotten Tomatoes"]));
+
+    vis.x.domain(d3.extent(filteredData, (d) => d["Rotten Tomatoes"]));
     // .domain(d3.extent(vis.displayData, d => d['Rotten Tomatoes'])).nice()
 
-    vis.y.domain(d3.extent(vis.displayData, (d) => d["IMDb"]));
+    vis.y.domain(d3.extent(filteredData, (d) => d["IMDb"]));
     // .domain([0, 10])
 
     // console.log(d3.extent(vis.displayData, (d) => d["IMDb"]));
@@ -103,12 +204,33 @@ class PlotVis {
     // vis.shape = d3.scaleOrdinal(vis.displayData.map(d => d.Netflix), d3.symbols.map(s => d3.symbol().type(s)()))
     // console.log(vis.shape('1'));
 
-    let circle = vis.svg.selectAll("circle").data(vis.displayData);
+    const colorSelector = (platform) => {
+      if (platform === 'Netflix'){
+        return '#e50914';
+      }
+
+      else if (platform === 'Hulu'){
+        return '#7de39f';
+      }
+
+      else if (platform === 'Prime Video'){
+        return '#edbc51';
+      }
+
+      else {
+        return '#66a1ed';
+      }
+
+    }
+
+    let circle = vis.svg.selectAll("circle")
+        .data(vis.displayData, function(d) {
+          return d.Title;
+        });
 
     circle
       .enter()
       .append("circle")
-      .attr("fill", "green")
       .attr("r", 5)
       .on("mouseover", function (event, d) {
         // console.log("mouseover");
@@ -164,6 +286,7 @@ class PlotVis {
       .merge(circle)
       .transition()
       .duration(800)
+        .attr("fill", colorSelector(plotPlatform))
       .attr("cx", (d) => vis.x(d["Rotten Tomatoes"]))
       .attr("cy", (d) => vis.y(d["IMDb"]))
       .attr("opacity", "0.7");
@@ -188,5 +311,9 @@ class PlotVis {
 
     vis.svg.select(".y-axis").call(vis.yAxis);
     vis.svg.select(".x-axis").call(vis.xAxis);
+  }
+
+  numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 }

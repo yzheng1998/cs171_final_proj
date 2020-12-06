@@ -214,3 +214,19 @@ nav#dot-nav a.active {
   height: 50px;
   border-color: black;
 }
+
+#fcp-image-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 20px;
+}
+
+#fcp-image-container img {
+  height: auto;
+  width: 80%;
+  object-fit: contain;
+}

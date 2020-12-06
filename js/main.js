@@ -81,3 +81,4 @@ $("#button-all").on("click", function (e) {
   mapFilter = "";
   myMapVis.wrangleData();
 });
+

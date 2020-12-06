@@ -36,7 +36,7 @@ class DotsVis {
       .append("g")
       .attr("class", "title bar-title")
       .append("text")
-      .text("Exploratory Vis")
+      .text("Genres")
       .attr("transform", `translate(${vis.width / 2}, 10)`)
       .attr("text-anchor", "middle");
 
@@ -46,7 +46,7 @@ class DotsVis {
       .attr("class", "tooltip")
       .attr("id", "dotsTooltip");
 
-    vis.node = vis.svg.append("g").selectAll(".bubble-node");
+    vis.textAndNodesGroup = vis.svg.append("g").attr("class", "textAndNodes");
 
     vis.force = d3
       .forceSimulation()
@@ -54,6 +54,31 @@ class DotsVis {
       .force("charge", d3.forceManyBody(20))
       .force("x", d3.forceX().strength(0.7))
       .force("y", d3.forceY().strength(0.7));
+
+    vis.radius = d3.scaleSqrt([0, 6000], [0, 75]);
+
+    vis.legend = vis.svg
+      .append("g")
+      .attr("fill", "#777")
+      .attr("transform", `translate(${50}, ${vis.height})`)
+      .attr("text-anchor", "middle")
+      .style("font", "10px sans-serif")
+      .selectAll("g")
+      .data(vis.radius.ticks(4).slice(1))
+      .join("g");
+
+    vis.legend
+      .append("circle")
+      .attr("fill", "none")
+      .attr("stroke", "#ccc")
+      .attr("cy", (d) => -vis.radius(d))
+      .attr("r", vis.radius);
+
+    vis.legend
+      .append("text")
+      .attr("y", (d) => -2 * vis.radius(d))
+      .attr("dy", "1.3em")
+      .text(vis.radius.tickFormat(4, "s"));
 
     this.wrangleData();
   }
@@ -123,27 +148,30 @@ class DotsVis {
     let vis = this;
 
     // create nodes
-    var nodes = Object.entries(vis.genreCount).map(([platformGenre, count]) => {
-      const [platform, genre] = platformGenre.split(",");
-      let scaledRadius = Math.sqrt(count) * 2,
-        forcedCluster = vis.cs.indexOf(platform);
+    var nodes = Object.entries(vis.genreCount).map(
+      ([platformGenre, count], i) => {
+        const [platform, genre] = platformGenre.split(",");
+        let scaledRadius = vis.radius(count),
+          forcedCluster = vis.cs.indexOf(platform);
 
-      // add cluster id and radius to array
-      let d = {
-        cluster: forcedCluster,
-        radius: scaledRadius,
-        platform,
-        genre,
-        count,
-      };
-      // add to clusters array if it doesn't exist or the radius is larger than another radius in the cluster
-      if (
-        !vis.clusters[forcedCluster] ||
-        scaledRadius > vis.clusters[forcedCluster].radius
-      )
-        vis.clusters[forcedCluster] = d;
-      return d;
-    });
+        // add cluster id and radius to array
+        let d = {
+          id: platformGenre,
+          cluster: forcedCluster,
+          radius: scaledRadius,
+          platform,
+          genre,
+          count,
+        };
+        // add to clusters array if it doesn't exist or the radius is larger than another radius in the cluster
+        if (
+          !vis.clusters[forcedCluster] ||
+          scaledRadius > vis.clusters[forcedCluster].radius
+        )
+          vis.clusters[forcedCluster] = d;
+        return d;
+      }
+    );
 
     var forceCollide = d3
       .forceCollide()
@@ -165,22 +193,33 @@ class DotsVis {
       }
     }
 
-    vis.node = vis.node.data(nodes, function (d) {
-      return d.platform + "," + d.genre;
-    });
+    vis.textAndNodes = vis.textAndNodesGroup
+      .selectAll(".bubble")
+      .data(nodes, function (d) {
+        return d.id;
+      });
 
-    vis.node
-      .exit()
+    var textAndNodesExit = vis.textAndNodes.exit();
+
+    textAndNodesExit
+      .selectAll(".bubble-node")
       .transition()
       .duration(750)
       .style("fill", "grey")
-      .attr("r", 0.0001)
-      .remove();
+      .attr("r", 0.0001);
 
-    var newNode = vis.node
+    textAndNodesExit
+      .selectAll(".bubble-text")
+      .transition()
+      .duration(750)
+      .attr("opacity", 0);
+
+    textAndNodesExit.transition().duration(750).remove();
+
+    var newTextAndNodes = vis.textAndNodes
       .enter()
-      .append("circle")
-      .attr("class", "bubble-node")
+      .append("g")
+      .attr("class", "bubble")
       .call(
         d3
           .drag()
@@ -188,10 +227,6 @@ class DotsVis {
           .on("drag", dragged)
           .on("end", dragended)
       )
-      .style("fill", function (d) {
-        return vis.color[d.cluster];
-      })
-      .style("opacity", 1)
       .on("mouseover", function (event, d) {
         d3.select(this).style("opacity", 0.7);
         vis.tooltip
@@ -199,12 +234,11 @@ class DotsVis {
           .style("left", event.pageX + 20 + "px")
           .style("top", event.pageY + "px").html(`
          <div style="border: thin solid grey; border-radius: 5px; background: rgba(0, 0, 0, .7); padding: 5px;">
-            <p style="font-size: 10px; color: white; margin: 0px">Platform: ${d.platform}<br>Genre: ${d.genre}<br>Count: ${d.count}<p>
+            <p style="font-size: 10px; color: white; margin: 0px">Platform: ${d.platform}<br>Genre: ${d.genre}<br>Count: ${d.count}
          </div>`);
       })
       .on("mouseout", function (event, d) {
         d3.select(this).style("opacity", 1);
-
         vis.tooltip
           .style("opacity", 0)
           .style("left", 0)
@@ -212,23 +246,44 @@ class DotsVis {
           .html(``);
       });
 
-    vis.node = vis.node.merge(newNode);
+    newTextAndNodes
+      .append("circle")
+      .attr("class", "bubble-node")
+      .style("fill", function (d) {
+        return vis.color[d.cluster];
+      });
 
-    vis.node
+    newTextAndNodes
+      .append("text")
+      .attr("class", "bubble-text")
+      .attr("text-anchor", "middle")
+      .attr("alignment-baseline", "middle")
+      .attr("font-family", "Space Mono")
+      .attr("font-size", 9);
+
+    vis.textAndNodes = newTextAndNodes.merge(vis.textAndNodes);
+
+    vis.textAndNodes
+      .selectAll(".bubble-node")
       .transition()
       .duration(750)
       .attr("r", function (d) {
-        return d.radius;
+        return nodes.find((el) => el.id === d.id).radius;
+      });
+
+    vis.textAndNodes
+      .selectAll(".bubble-text")
+      .transition()
+      .duration(750)
+      .text(function (d) {
+        if (nodes.find((el) => el.id === d.id).count > 200)
+          return `${d.genre}  `;
       });
 
     function tick() {
-      vis.node
-        .attr("cx", function (d) {
-          return d.x;
-        })
-        .attr("cy", function (d) {
-          return d.y;
-        });
+      vis.textAndNodes.attr("transform", function (d) {
+        return `translate(${d.x}, ${d.y})`;
+      });
     }
 
     // reset force

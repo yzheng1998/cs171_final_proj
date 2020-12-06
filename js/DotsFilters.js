@@ -16,7 +16,7 @@ var outputRT = document.getElementById("rottenTomatoesValue");
 outputRT.innerHTML = sliderRT.value; // Display the default slider value
 
 // Update the current slider value (each time you drag the slider handle)
-sliderRT.oninput = function () {
+sliderRT.onmouseup = function () {
   outputRT.innerHTML = this.value;
   myDotsVis.wrangleData();
   myPlotVis.wrangleData();
@@ -27,8 +27,7 @@ var outputIMDb = document.getElementById("IMDbValue");
 outputIMDb.innerHTML = sliderIMDb.value; // Display the default slider value
 
 // Update the current slider value (each time you drag the slider handle)
-sliderIMDb.oninput = function () {
-  console.log("oninput");
+sliderIMDb.onmouseup = function () {
   outputIMDb.innerHTML = this.value;
   myDotsVis.wrangleData();
   myPlotVis.wrangleData();
@@ -39,7 +38,7 @@ var outputAge = document.getElementById("AgeValue");
 outputAge.innerHTML = sliderAge.value; // Display the default slider value
 
 // Update the current slider value (each time you drag the slider handle)
-sliderAge.oninput = function () {
+sliderAge.onmouseup = function () {
   outputAge.innerHTML = this.value;
   myDotsVis.wrangleData();
   myPlotVis.wrangleData();

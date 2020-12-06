@@ -9,7 +9,7 @@ class GenreVis {
   initVis() {
     let vis = this;
 
-    vis.margin = { top: 20, right: 20, bottom: 20, left: 50 };
+    vis.margin = { top: 20, right: 20, bottom: 20, left: 20 };
     vis.width =
       $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right;
     vis.height =
@@ -166,8 +166,17 @@ class GenreVis {
 
     let platforms = ["Disney+", "Hulu", "Netflix", "Prime Video"];
 
-
-    vis.remove = ["Film-Noir", "Biography", "Game-Show", "News", "Reality-TV", "Short", "Talk-Show", "War", "Western"]
+    vis.remove = [
+      "Film-Noir",
+      "Biography",
+      "Game-Show",
+      "News",
+      "Reality-TV",
+      "Short",
+      "Talk-Show",
+      "War",
+      "Western",
+    ];
 
     // vis.filtered = {
     //   0: [],
@@ -176,17 +185,17 @@ class GenreVis {
     //   3: []
     // }
 
-    vis.filtered = [[],[],[],[]];
+    vis.filtered = [[], [], [], []];
 
-    Object.keys(vis.arrayGenre).map((key) =>{
+    Object.keys(vis.arrayGenre).map((key) => {
       var other = 0;
       let platform;
-      console.log("break")
-      for (let i of vis.arrayGenre[key]){
-        if(!vis.remove.includes(i.genre)){
-          vis.filtered[key].push(i)
+      console.log("break");
+      for (let i of vis.arrayGenre[key]) {
+        if (!vis.remove.includes(i.genre)) {
+          vis.filtered[key].push(i);
         }
-        if(vis.remove.includes(i.genre)){
+        if (vis.remove.includes(i.genre)) {
           other = other + i.percent;
           platform = i.platform;
         }
@@ -194,11 +203,11 @@ class GenreVis {
       vis.filtered[key].push({
         genre: "Other",
         percent: other,
-        platform: platform
-      })
-    })
+        platform: platform,
+      });
+    });
 
-    console.log(vis.filtered)
+    console.log(vis.filtered);
 
     // if (vis.filtering){
     //     if (platforms.indexOf(vis.filtering) != -1){
@@ -225,8 +234,8 @@ class GenreVis {
       w: vis.width * 0.8, //Width of the circle
       h: vis.height * 0.8, //Height of the circle
       margin: vis.margin, //The margins of the SVG
-      levels: 10, //How many levels or inner circles should there be drawn
-      maxValue: d3.max(vis.maxCounter), //What is the value that the biggest circle will represent
+      levels: 8, //How many levels or inner circles should there be drawn
+      maxValue: 0.8, //What is the value that the biggest circle will represent
       labelFactor: 1.15, //How much farther than the radius of the outer circle should the labels be placed
       wrapWidth: 60, //The number of pixels after which a label needs to be given a new line
       opacityArea: 0.35, //The opacity of the area of the blob
@@ -241,12 +250,12 @@ class GenreVis {
     var allAxis = []; //Names of each axis
 
     vis.genreBreakdown.Netflix.map(function (i, j) {
-      if(!vis.remove.includes(i.genre)){
+      if (!vis.remove.includes(i.genre)) {
         allAxis.push(i.genre);
       }
-    })
+    });
 
-    allAxis.push("Other")
+    allAxis.push("Other");
 
     // var allAxis = vis.genreBreakdown.Netflix.map(function (i, j) {
     //         return i.genre;
@@ -254,8 +263,7 @@ class GenreVis {
     //
     // console.log(allAxis)
 
-    var
-      total = allAxis.length, //The number of different axes
+    var total = allAxis.length, //The number of different axes
       radius = Math.min(cfg.w / 2, cfg.h / 2), //Radius of the outermost circle
       Format = d3.format(".0%"), //Percentage formatting
       angleSlice = (Math.PI * 2) / total; //The width in radians of each "slice"
@@ -424,6 +432,7 @@ class GenreVis {
       .style("fill", (d, i) => cfg.color(i))
       .style("fill-opacity", cfg.opacityArea)
       .on("mouseover", function (d, i) {
+        if (mapFilter) return;
         //Dim all blobs
         vis.svg
           .selectAll(".radarArea")
@@ -452,6 +461,7 @@ class GenreVis {
           .style("fill-opacity", 1);
       })
       .on("mouseout", (d, i) => {
+        if (mapFilter) return;
         //Bring back all blobs
         vis.svg
           .selectAll(".radarArea")
@@ -589,50 +599,65 @@ class GenreVis {
     //     .style("fill", (d) => cfg.color(d.id))
     //     .style("fill-opacity", 0);
 
-    $('#button-disney').on('click', function(e){
-      highlight(e)
-    })
+    $("#button-disney").on("click", function (e) {
+      highlight(e);
+    });
 
-    $('#button-prime').on('click', function(e){
-      highlight(e)
-    })
+    $("#button-prime").on("click", function (e) {
+      highlight(e);
+    });
 
-    $('#button-hulu').on('click', function(e){
-      highlight(e)
-    })
+    $("#button-hulu").on("click", function (e) {
+      highlight(e);
+    });
 
-    $('#button-netflix').on('click', function(e){
-      highlight(e)
-    })
+    $("#button-netflix").on("click", function (e) {
+      highlight(e);
+    });
 
-    $('#button-all').on('click', function(e){
-      return_all()
-    })
+    $("#button-all").on("click", function (e) {
+      return_all();
+    });
 
-
-    function highlight(e){
+    function highlight(e) {
       const idx = platforms.indexOf($("#" + e.target.id).val());
       vis.svg
-          .selectAll(".radarArea")
-          // .transition().duration(200)
-          .style("fill-opacity", 0.05);
-      vis.svg.selectAll(".radarStroke").style("stroke-opacity", 0.05);
+        .selectAll(".radarArea")
+        .transition()
+        .duration(750)
+        .style("fill-opacity", 0.05);
+      vis.svg
+        .selectAll(".radarStroke")
+        .transition()
+        .duration(750)
+        .style("stroke-opacity", 0.05);
 
       // highlight disney
-      vis.svg.select("#stroke" + idx).style("stroke-opacity", 1);
-      vis.svg.select("#blob" + idx).style("fill-opacity", 1);
+      vis.svg
+        .select("#stroke" + idx)
+        .transition()
+        .duration(750)
+        .style("stroke-opacity", 1);
+      vis.svg
+        .select("#blob" + idx)
+        .transition()
+        .duration(750)
+        .style("fill-opacity", 1);
     }
 
-    function return_all(){
+    function return_all() {
       //Bring back all blobs
       vis.svg
-          .selectAll(".radarArea")
-          // .transition().duration(200)
-          .style("fill-opacity", cfg.opacityArea);
+        .selectAll(".radarArea")
+        .transition()
+        .duration(750)
+        .style("fill-opacity", cfg.opacityArea);
 
-      vis.svg.selectAll(".radarStroke").style("stroke-opacity", 1);
+      vis.svg
+        .selectAll(".radarStroke")
+        .transition()
+        .duration(750)
+        .style("stroke-opacity", 1);
     }
-
-
   }
 }

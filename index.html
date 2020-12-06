@@ -138,10 +138,6 @@
             platform you want to filter the map by specifically in the
             drop-down!
           </h6>
-          <div class="row">
-            <div class="col-7" id="map-vis"></div>
-            <div class="col-5" id="radial-genre-vis"></div>
-          </div>
           <div
             class="btn-group btn-group-toggle"
             id="map-selector"
@@ -164,6 +160,14 @@
                 name="platform"
               />Netflix</label
             >
+            <label class="btn btn-primary rounded" id="button-prime-label">
+              <input
+                type="radio"
+                value="Prime Video"
+                id="button-prime"
+                name="platform"
+              />Prime Video</label
+            >
             <label class="btn btn-primary rounded" id="button-hulu-label">
               <input
                 type="radio"
@@ -180,14 +184,10 @@
                 name="platform"
               />Disney +</label
             >
-            <label class="btn btn-primary rounded" id="button-prime-label">
-              <input
-                type="radio"
-                value="Prime Video"
-                id="button-prime"
-                name="platform"
-              />Prime Video</label
-            >
+          </div>
+          <div class="row vis1">
+            <div class="col-7" id="map-vis"></div>
+            <div class="col-5" id="radial-genre-vis"></div>
           </div>
         </div>
       </div>

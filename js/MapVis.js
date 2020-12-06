@@ -33,28 +33,29 @@ class MapVis {
       .attr("transform", `translate (${vis.margin.left}, ${vis.margin.top})`);
     // add title
 
-    vis.svg
-      .append("g")
-      .attr("class", "title map-title")
-      .append("text")
-      .text("Where are movies produced?")
-      .attr("transform", `translate(${vis.width / 2}, 20)`)
-      .attr("text-anchor", "middle");
+    // vis.svg
+    //   .append("g")
+    //   .attr("class", "title map-title")
+    //   .append("text")
+    //   .text("Where are movies produced?")
+    //   .attr("transform", `translate(${vis.width / 2}, 20)`)
+    //   .attr("text-anchor", "middle");
 
     vis.projection = d3
-      .geoNaturalEarth1()
+      .geoMercator()
+      .center([0, 20])
       .translate([vis.width / 2, vis.height / 2])
       .scale(100);
 
     vis.path = d3.geoPath().projection(vis.projection);
 
-    vis.svg
-      .append("path")
-      // .datum(d3.geoGraticule())
-      .attr("class", "graticule")
-      .attr("fill", "rgba(0, 0, 0, 0)")
-      .attr("stroke", "rgba(129,129,129,0.35)")
-      .attr("d", vis.path);
+    // vis.svg
+    //   .append("path")
+    //   .datum(d3.geoGraticule())
+    //   .attr("class", "graticule")
+    //   .attr("fill", "rgba(0, 0, 0, 0)")
+    //   .attr("stroke", "rgba(129,129,129,0.35)")
+    //   .attr("d", vis.path);
 
     vis.world = topojson.feature(
       vis.geoData,
@@ -83,35 +84,32 @@ class MapVis {
       {}
     );
     // hardcode France's Centroid
-    vis.centroids.France = [180.54553255080222, 165.14844120403816];
+    // vis.centroids.France = [180.54553255080222, 165.14844120403816];
 
-    // vis.legend = vis.svg
-    //   .append("g")
-    //   .attr("class", "legend")
-    //   .attr(
-    //     "transform",
-    //     `translate(${(vis.width * 2.8) / 4}, ${vis.height - 60})`
-    //   );
+    vis.radius = d3.scaleSqrt([0, 12000], [0, 50]);
 
-    // vis.scaleLegend = d3
-    //   .scaleLinear()
-    //   .domain([0, 100])
-    //   .range([0, vis.width / 6]);
+    vis.legend = vis.svg
+      .append("g")
+      .attr("fill", "#777")
+      .attr("transform", `translate(${70}, ${vis.height - 30})`)
+      .attr("text-anchor", "middle")
+      .style("font", "10px sans-serif")
+      .selectAll("g")
+      .data(vis.radius.ticks(4).slice(1))
+      .join("g");
 
-    // vis.legend
-    //   .selectAll("rect")
-    //   .data(vis.colors)
-    //   .enter()
-    //   .append("rect")
-    //   .attr("x", (d, i) => vis.scaleLegend(25) * i)
-    //   .attr("y", 0)
-    //   .attr("fill", (d) => d)
-    //   .attr("width", vis.scaleLegend(25))
-    //   .attr("height", vis.scaleLegend(25));
+    vis.legend
+      .append("circle")
+      .attr("fill", "none")
+      .attr("stroke", "#ccc")
+      .attr("cy", (d) => -vis.radius(d))
+      .attr("r", vis.radius);
 
-    // vis.legendAxis = d3.axisBottom().scale(vis.scaleLegend).ticks(3);
-
-    // vis.legend.call(vis.legendAxis);
+    vis.legend
+      .append("text")
+      .attr("y", (d) => -2 * vis.radius(d))
+      .attr("dy", "1.3em")
+      .text(vis.radius.tickFormat(4, "s"));
 
     vis.wrangleData();
   }
@@ -140,7 +138,7 @@ class MapVis {
   updateVis() {
     let vis = this;
 
-    vis.circles = vis.svg.selectAll("circle").data(
+    vis.circles = vis.svg.selectAll(".bubble").data(
       Object.entries(vis.countryInfo).sort((a, b) => {
         if (a[0] < b[0]) return -1;
         if (a[0] > b[0]) return 1;
@@ -152,10 +150,10 @@ class MapVis {
     );
 
     var platformColors = {
-      Hulu: "#7de39f88",
-      Netflix: "#e5091488",
-      "Disney+": "#66a1ed88",
-      "Prime Video": "#edbc5188",
+      Hulu: "#7de39f",
+      Netflix: "#e50914",
+      "Disney+": "#66a1ed",
+      "Prime Video": "#edbc51",
     };
 
     vis.circles.exit().transition().duration(750).remove();
@@ -165,31 +163,26 @@ class MapVis {
       .append("circle")
       .attr("class", "bubble")
       .merge(vis.circles)
-      .attr("r", function ([country, value]) {
-        return value ? Math.sqrt(value) / 2 : 0;
-      })
-      .attr("fill", (d) => {
-        return platformColors[mapFilter] || "rgba(225, 225, 225, .2)";
-      })
-      .attr("stroke", "black")
-      .attr("stroke-width", 0.2)
-      // using the map data
-      // position a circle for matches in cd array
-      .attr("transform", function ([country, value]) {
-        var t = vis.centroids[country];
-        return "translate(" + t + ")";
-      })
       .on("mouseover", function (event, d) {
         d3.select(this).attr("stroke-width", "1px");
+
         vis.tooltip
           .style("opacity", 1)
           .style("left", event.pageX + 20 + "px")
           .style("top", event.pageY + "px").html(`
-                 <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
-                     <h6>Country: ${d[0]}<h6>
-                     <h6>Count: ${d[1] || 0}<h6>
-                 </div>`);
+          <div style="border: thin solid grey; border-radius: 5px; background: rgba(0, 0, 0, .7); padding: 5px;">
+            <p style="font-size: 14px; color: white; margin: 0px">${
+              d[0]
+            }:<br>${d[1] || 0} movie${d[1] !== 1 ? "s" : ""}
+         </div>
+                 `);
       })
+      .attr("transform", function ([country, value]) {
+        var t = vis.centroids[country];
+        return "translate(" + t + ")";
+      })
+      .attr("stroke", "white")
+      .attr("stroke-width", 0.2)
       .on("mouseout", function (event, d) {
         d3.select(this).attr("stroke-width", ".2px");
 
@@ -198,22 +191,67 @@ class MapVis {
           .style("left", 0)
           .style("top", 0)
           .html(``);
+      })
+      .attr("fill-opacity", 0.7)
+      .transition()
+      .duration(750)
+      .attr("r", function ([country, value]) {
+        return vis.radius(value);
+      })
+      .attr("fill", (d) => {
+        return platformColors[mapFilter] || "rgb(79,98,112)";
+      });
+
+    vis.labels = vis.svg.selectAll(".labels").data(
+      Object.entries(vis.countryInfo).sort((a, b) => {
+        if (a[0] < b[0]) return -1;
+        if (a[0] > b[0]) return 1;
+        return 0;
+      }),
+      function (d) {
+        return d[0];
+      }
+    );
+
+    vis.labels.exit().remove();
+
+    vis.labels
+      .enter()
+      .append("text")
+      .attr("class", "labels")
+      .merge(vis.labels)
+      .attr("transform", function ([country, value]) {
+        var t = vis.centroids[country];
+        return "translate(" + t + ")";
+      })
+      .attr("text-anchor", "middle")
+      .attr("alignment-baseline", "middle")
+      .attr("font-family", "Space Mono")
+      .attr("font-size", 12)
+      .transition()
+      .delay(500)
+      .text(function (d) {
+        if (d[1] > 500) {
+          return d[1];
+        }
       });
 
     vis.countries
-      .attr("fill", "rgb(120, 120, 120)")
+      .attr("fill", "rgb(180, 180, 180)")
       .attr("stroke-width", ".2px")
-      .attr("stroke", "black")
+      .attr("stroke", "white")
       .on("mouseover", function (event, d) {
         d3.select(this).attr("stroke-width", "1px");
         vis.tooltip
           .style("opacity", 1)
           .style("left", event.pageX + 20 + "px")
           .style("top", event.pageY + "px").html(`
-                 <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
-                     <h6>Country: ${d.properties.name}<h6>
-                     <h6>Count: ${vis.countryInfo[d.properties.name] || 0}<h6>
-                 </div>`);
+        <div style="border: thin solid grey; border-radius: 5px; background: rgba(0, 0, 0, .7); padding: 5px;">
+          <p style="font-size: 14px; color: white; margin: 0px">${
+            d.properties.name
+          }:<br>${vis.countryInfo[d.properties.name] || 0} movie${vis.countryInfo[d.properties.name] !== 1 ? "s" : ""}
+       </div>
+               `);
       })
       .on("mouseout", function (event, d) {
         d3.select(this).attr("stroke-width", ".2px");

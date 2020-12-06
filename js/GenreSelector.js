@@ -1,9 +1,9 @@
 class GenreSelector {
   constructor(parentElement, genres) {
     this.parentElement = parentElement;
-    this.genres = Array.from(Object.entries(genres))
-      .sort((a, b) => a[1] - b[1])
-      .reverse();
+    this.genres = Array.from(Object.entries(genres)).sort(
+      (a, b) => b[1] - a[1]
+    );
     this.init();
   }
 
@@ -17,6 +17,7 @@ class GenreSelector {
     $("#genres").select2({
       placeholder: "Select genres",
       allowClear: true,
+      closeOnSelect: false,
     });
   }
 }

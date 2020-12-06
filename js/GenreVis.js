@@ -9,7 +9,7 @@ class GenreVis {
   initVis() {
     let vis = this;
 
-    vis.margin = { top: 20, right: 20, bottom: 20, left: 20 };
+    vis.margin = { top: 20, right: 30, bottom: 0, left: 25 };
     vis.width =
       $("#" + vis.parentElement).width() - vis.margin.left - vis.margin.right;
     vis.height =

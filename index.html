@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CS171 - Boilerplate</title>
+    <title>Streaming Wars</title>
 
     <!-- Load CSS libraries -->
     <link
@@ -49,7 +49,10 @@
             Wars
           </h1>
           <h4 class="title-sub">
-            Which streaming platform is the best for you?
+            On the market for a new streaming platform? Netflix, Hulu, Prime
+            Video, and Disney + the major four, and we are here to help you
+            compare their movie collections and choose which streaming platform
+            is best for you!
           </h4>
         </div>
         <div
@@ -80,7 +83,7 @@
     </section>
 
     <!-- section 1: intro-->
-    <section>
+    <!-- <section>
       <div class="row section" id="section1">
         <div class="col-md-12">
           <h2 class="title">
@@ -100,7 +103,7 @@
           />
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- section 2: hook visualization-->
     <!-- <section>
@@ -126,18 +129,15 @@
     <section>
       <div class="row section" id="section3">
         <div class="col-md-12">
-          <h2 class="title">
-            Overall, how do the streaming platforms compare?
-          </h2>
+          <h2 class="title">Overview of the Platforms</h2>
 
           <!-- map visualization -->
-          <h4>Where is the content produced?</h4>
-          <h6>
-            Let’s first take a look at the spread of content on streaming
-            platforms by their country of production. Feel free to select which
-            platform you want to filter the map by specifically in the
-            drop-down!
-          </h6>
+          <h4>
+            Do you like watching movies from India, or maybe from Australia?
+            Perhaps you prefer thrillers over romance? Let's look at a breakdown
+            each platform's movies by country of production and by genre.
+          </h4>
+          <h6>Click to toggle between platforms:</h6>
           <div
             class="btn-group btn-group-toggle"
             id="map-selector"
@@ -186,8 +186,18 @@
             >
           </div>
           <div class="row vis1">
-            <div class="col-7" id="map-vis"></div>
-            <div class="col-5" id="radial-genre-vis"></div>
+            <div class="col-7">
+              <div class="chart-title">
+                Number of Movies Produced in Each Country
+              </div>
+              <div class="row" id="map-vis"></div>
+            </div>
+            <div class="col-5">
+              <div class="chart-title" style="padding-right: 50px">
+                Genre Profile
+              </div>
+              <div class="row" id="radial-genre-vis"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -214,21 +224,13 @@
     <section>
       <div class="row section" id="section4">
         <h2 class="title">
-          No platform is one-size-fits-all. <br />
-          Let’s find which platform is best for you!
+          Tell us more about the movies you like.<br />
+          We'll find the platform that is best for you!
         </h2>
-        <h6>
-          In this exploratory visualization, use the filters provided to select
-          streaming content that you love the most. During this process, you’ll
-          get to see how your favorite content compares to all the content
-          across the platforms. <br /><br />When you’re done selecting, leave
-          the rest of the work to us. We’ll help you find which platform is the
-          most suitable for your viewing preferences.
-        </h6>
-        <div class="col-md-8">
+        <div class="col-md-9">
           <div id="exploratory-vis"></div>
         </div>
-        <div class="col-md-4 exploratory-filter">
+        <div class="col-md-3 exploratory-filter">
           <select id="genres" multiple="multiple"></select>
           <div>
             <label for="rottenTomatoes"

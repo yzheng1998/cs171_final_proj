@@ -52,8 +52,20 @@ class DotsVis {
       .forceSimulation()
       .force("center", d3.forceCenter(vis.width / 2, vis.height / 2))
       .force("charge", d3.forceManyBody(20))
-      .force("x", d3.forceX().strength(0.7))
-      .force("y", d3.forceY().strength(0.7));
+      .force(
+        "x",
+        d3
+          .forceX()
+          .strength(0.7)
+          .x(vis.width / 2)
+      )
+      .force(
+        "y",
+        d3
+          .forceY()
+          .strength(0.7)
+          .y(vis.height / 2)
+      );
 
     vis.radius = d3.scaleSqrt([0, 6000], [0, 75]);
 

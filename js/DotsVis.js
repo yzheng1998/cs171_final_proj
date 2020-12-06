@@ -64,7 +64,7 @@ class DotsVis {
       .attr("text-anchor", "middle")
       .style("font", "10px sans-serif")
       .selectAll("g")
-      .data(vis.radius.ticks(4).slice(1))
+      .data(vis.radius.ticks(5).slice(1))
       .join("g");
 
     vis.legend

@@ -195,6 +195,7 @@ nav#dot-nav a.active {
   -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
   pointer-events: none;
+  z-index: 100;
 }
 
 .btn {
@@ -226,6 +227,26 @@ nav#dot-nav a.active {
 }
 
 #button-prime-label {
+  background-color: #edbc51;
+}
+
+#button-all-label-2 {
+  background-color: rgb(79, 98, 112);
+}
+
+#button-disney-label-2 {
+  background-color: #66a1ed;
+}
+
+#button-hulu-label-2 {
+  background-color: #7de39f;
+}
+
+#button-netflix-label-2 {
+  background-color: #e50914;
+}
+
+#button-prime-label-2 {
   background-color: #edbc51;
 }
 

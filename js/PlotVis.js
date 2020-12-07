@@ -150,16 +150,26 @@ class PlotVis {
           '<img class="final-image" src="img/' + vis.finalPlatform + '.png" />' +
         '</a>'
 
-    vis.displayData = filteredData.filter((movie) => {
-      return (
-        movie[plotPlatform] === 1 &&
-        (selectedGenres.length === 0 ||
-          selectedGenres.filter((value) =>
-            movie.Genres.split(",").includes(value)
-          ).length !== 0) &&
-        movie["Rotten Tomatoes"] !== null
-      );
-    });
+    if (plotPlatform !== '') {
+      vis.displayData = filteredData.filter((movie) => {
+        return (
+            movie[plotPlatform] === 1 &&
+            (selectedGenres.length === 0 ||
+                selectedGenres.filter((value) =>
+                    movie.Genres.split(",").includes(value)
+                ).length !== 0) &&
+            movie["Rotten Tomatoes"] !== null
+        );
+      });
+    }
+
+    if (plotPlatform === '') {
+      console.log('plotPlatform all')
+      vis.displayData = filteredData.filter(movie => {
+        return movie['Rotten Tomatoes'] !== null && movie['IMDb'] !== 0;
+      });
+    }
+
 
     //
     // vis.netflixCount = vis.displayData.reduce((a, b) => ({Netflix: a.Netflix + b.Netflix}));
@@ -210,7 +220,26 @@ class PlotVis {
     // vis.shape = d3.scaleOrdinal(vis.displayData.map(d => d.Netflix), d3.symbols.map(s => d3.symbol().type(s)()))
     // console.log(vis.shape('1'));
 
-    const colorSelector = (platform) => {
+    const colorSelector = (platform, d) => {
+
+      if (platform === '') {
+        if (d.Netflix === 1){
+          return '#e50914';
+        }
+
+        else if (d.Hulu === 1){
+          return '#7de39f';
+        }
+
+        else if (d['Prime Video'] === 1){
+          return '#edbc51';
+        }
+
+        else {
+          return '#66a1ed';
+        }
+      }
+
       if (platform === 'Netflix'){
         return '#e50914';
       }
@@ -237,6 +266,13 @@ class PlotVis {
         });
 
     circle
+        .exit()
+        .transition()
+        .duration(800)
+        .attr('opacity', 0)
+        .remove();
+
+    circle
       .enter()
       .append("circle")
       .attr("r", 5)
@@ -260,11 +296,18 @@ class PlotVis {
         // console.log(IMDbScore)
 
         //Update the tooltip position and value
+        let platformList = ["Netflix", "Disney+", "Prime Video", "Hulu"].filter(ptfm => d[ptfm])
 
         let html =
+
+            // `<span>${["Netflix", "Disney+", "Prime Video", "Hulu"].filter(ptfm => d[ptfm]).join(', ')}</span>` +
           "<span style='font-weight: bold;'>" +
           d.Title +
           "</span><br/>" +
+            "<span>" +
+            `Platform${platformList.length > 1 ? 's: ' : ': '}` +
+            `${platformList.join(', ')}` +
+            "</span><br/>" +
           "<span>" +
           "Genres: " +
           d.Genres.replace(/,(?=[^\s])/g, ", ") +
@@ -295,15 +338,16 @@ class PlotVis {
         //Hide the tooltip
         d3.select("#tooltip").attr("hidden", true);
       })
+      .attr('opacity', '0')
       .merge(circle)
-      .transition()
-      .duration(800)
-        .attr("fill", colorSelector(plotPlatform))
       .attr("cx", (d) => vis.x(d["Rotten Tomatoes"]))
       .attr("cy", (d) => vis.y(d["IMDb"]))
+      .transition()
+      .duration(800)
+      .attr("fill", d => colorSelector(plotPlatform, d))
       .attr("opacity", "0.7");
 
-    circle.exit().remove();
+
 
     // vis.svg.append("g")
     //     .attr("stroke-width", 1.5)
@@ -321,8 +365,8 @@ class PlotVis {
     //     // .attr("fill", d => color(d.category))
     //     // .attr("d", d => shape(d.category));
 
-    vis.svg.select(".y-axis").call(vis.yAxis);
-    vis.svg.select(".x-axis").call(vis.xAxis);
+    vis.svg.select(".y-axis").transition().call(vis.yAxis);
+    vis.svg.select(".x-axis").transition().call(vis.xAxis);
   }
 
   numberWithCommas = (x) => {
@@ -356,4 +400,5 @@ class PlotVis {
       return rating
     }
   }
+
 }

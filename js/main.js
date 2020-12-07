@@ -3,7 +3,7 @@ let myMapVis;
 let myDotsVis;
 let myGenreVis;
 let myPlotVis;
-let plotPlatform = "Netflix";
+let plotPlatform = "";
 let myGenreSelector;
 let platforms = ["Netflix", "Hulu", "Prime Video", "Disney+"];
 let filteredData;
@@ -80,5 +80,32 @@ $("#button-netflix").on("click", function (e) {
 $("#button-all").on("click", function (e) {
   mapFilter = "";
   myMapVis.wrangleData();
+});
+
+/********/
+
+$("#button-disney-2").on("click", function (e) {
+  plotPlatform = "Disney+";
+  myPlotVis.wrangleData();
+});
+
+$("#button-prime-2").on("click", function (e) {
+  plotPlatform = "Prime Video";
+  myPlotVis.wrangleData();
+});
+
+$("#button-hulu-2").on("click", function (e) {
+  plotPlatform = "Hulu";
+  myPlotVis.wrangleData();
+});
+
+$("#button-netflix-2").on("click", function (e) {
+  plotPlatform = "Netflix";
+  myPlotVis.wrangleData();
+});
+
+$("#button-all-2").on("click", function (e) {
+  plotPlatform = "";
+  myPlotVis.wrangleData();
 });
 

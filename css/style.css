@@ -251,8 +251,13 @@ nav#dot-nav a.active {
   padding-top: 20px;
 }
 
-#fcp-image-container img {
+#fcp-image {
   height: auto;
   width: 80%;
+}
+
+#fcp-image .final-image {
+  height: auto;
+  width: 100%;
   object-fit: contain;
 }

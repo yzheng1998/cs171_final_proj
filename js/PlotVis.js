@@ -34,7 +34,8 @@ class PlotVis {
 
     vis.y = d3.scaleLinear().range([vis.height, 0]);
 
-    vis.xAxis = d3.axisBottom().scale(vis.x);
+    vis.xAxis = d3.axisBottom().scale(vis.x)
+        .tickFormat(d3.format(".0%"));
 
     vis.yAxis = d3.axisLeft().scale(vis.y);
 
@@ -137,12 +138,17 @@ class PlotVis {
 
 
     document.getElementById('final-chosen-platform').innerHTML = 'We think that ' +  vis.finalPlatform + ' is the best platform for you!'
-    document.getElementById('fcp-description').innerHTML =  'Based on your viewing preferences, we think ' +  vis.finalPlatform + ' is most ' +
-    'suited for you because it has ' + vis.numberWithCommas(vis.platformCounts[vis.finalPlatform]) + ' movies that: <br /> ' +
-    'have an IMDb rating of at least ' + document.getElementById("IMDb").value + ', <br />have a Rotten Tomatoes rating of at least ' + document.getElementById("rottenTomatoes").value +
-    ', <br />and fall under your preferred genres: ' + $("#genres").val().join(', ')
+    document.getElementById('fcp-description').innerHTML =  'Based on your viewing preferences, we think <b>' +  vis.finalPlatform + '</b> is most ' +
+    'suited for you because it has <b>' + vis.numberWithCommas(vis.platformCounts[vis.finalPlatform]) + '</b> movies that: <br /> ' +
+    'have an <b>IMDb</b> rating of at least <b>' + document.getElementById("IMDb").value + '</b>, <br />have a <b>Rotten Tomatoes</b> rating of at least <b>' + document.getElementById("rottenTomatoes").value +
+    '</b>, <br />and fall under your preferred genres: <b>' + $("#genres").val().join(', ') + '</b>'
 
-    document.getElementById('fcp-image-container').innerHTML = '<img src="img/' + vis.finalPlatform + '.png" />'
+    let link = vis.assignLink(vis.finalPlatform);
+
+    document.getElementById('fcp-image-container').innerHTML = '' +
+        '<a id="fcp-image" href="' + link + '">' +
+          '<img class="final-image" src="img/' + vis.finalPlatform + '.png" />' +
+        '</a>'
 
     vis.displayData = filteredData.filter((movie) => {
       return (
@@ -223,6 +229,8 @@ class PlotVis {
 
     }
 
+    d3.select("#tooltip").attr("hidden", true);
+
     let circle = vis.svg.selectAll("circle")
         .data(vis.displayData, function(d) {
           return d.Title;
@@ -269,6 +277,10 @@ class PlotVis {
           "Rotten Tomatoes score: " +
           d["Rotten Tomatoes"] * 100 +
           "%" +
+          "</span><br/>" +
+          "<span>" +
+          "Age rating: " +
+            vis.ageRatingNullHandler(d["Age"])+
           "</span><br/>";
 
         d3.select("#tooltip")
@@ -315,5 +327,33 @@ class PlotVis {
 
   numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  assignLink = (platform) => {
+    if (platform === 'Netflix') {
+      return 'https://www.netflix.com/'
+    }
+
+    else if (platform === 'Prime Video') {
+      return 'https://www.primevideo.com/'
+    }
+
+    else if (platform === 'Disney+') {
+      return 'https://www.disneyplus.com/'
+    }
+
+    else {
+      return 'https://www.hulu.com/welcome'
+    }
+  }
+
+  ageRatingNullHandler = (rating) => {
+    if (rating === null) {
+      return 'not rated'
+    }
+
+    else {
+      return rating
+    }
   }
 }

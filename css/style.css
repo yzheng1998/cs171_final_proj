@@ -301,3 +301,17 @@ nav#dot-nav a.active {
   width: 100%;
   object-fit: contain;
 }
+
+.div-wrapper {
+  position: relative;
+  height: 300px;
+  width: 300px;
+  z-index: -1;
+}
+
+.div-wrapper img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  filter: brightness(50%);
+}

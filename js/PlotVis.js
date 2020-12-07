@@ -170,6 +170,18 @@ class PlotVis {
       });
     }
 
+// =======
+//     vis.displayData = filteredData.filter((movie) => {
+//       return (
+//         movie[plotPlatform] === 1 &&
+//         (selectedGenres.length === 0 ||
+//           selectedGenres.filter((value) =>
+//             movie.Genres.split(",").includes(value)
+//           ).length !== 0) &&
+//         movie["Rotten Tomatoes"] !== null
+//       );
+//     });
+// >>>>>>> Stashed changes
 
     //
     // vis.netflixCount = vis.displayData.reduce((a, b) => ({Netflix: a.Netflix + b.Netflix}));
@@ -400,5 +412,4 @@ class PlotVis {
       return rating
     }
   }
-
 }

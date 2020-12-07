@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>QUARAN-STREAMING</title>
+    <title>Quaran-streaming</title>
 
     <!-- Load CSS libraries -->
     <link
@@ -86,7 +86,10 @@
             id="map-selector"
             data-toggle="buttons"
           >
-            <label class="btn btn-primary rounded active" id="button-all-label">
+            <label
+              class="btn btn-primary rounded active button-all-label"
+              id="button-all-label"
+            >
               <input
                 type="radio"
                 value="All"
@@ -95,7 +98,10 @@
                 checked
               />All</label
             >
-            <label class="btn btn-primary rounded" id="button-netflix-label">
+            <label
+              class="btn btn-primary rounded button-netflix-label"
+              id="button-netflix-label"
+            >
               <input
                 type="radio"
                 value="Netflix"
@@ -103,7 +109,10 @@
                 name="platform"
               />Netflix</label
             >
-            <label class="btn btn-primary rounded" id="button-prime-label">
+            <label
+              class="btn btn-primary rounded button-prime-label"
+              id="button-prime-label"
+            >
               <input
                 type="radio"
                 value="Prime Video"
@@ -111,7 +120,10 @@
                 name="platform"
               />Prime Video</label
             >
-            <label class="btn btn-primary rounded" id="button-hulu-label">
+            <label
+              class="btn btn-primary rounded button-hulu-label"
+              id="button-hulu-label"
+            >
               <input
                 type="radio"
                 value="Hulu"
@@ -119,7 +131,10 @@
                 name="platform"
               />Hulu</label
             >
-            <label class="btn btn-primary rounded" id="button-disney-label">
+            <label
+              class="btn btn-primary rounded button-disney-label"
+              id="button-disney-label"
+            >
               <input
                 type="radio"
                 value="Disney+"
@@ -177,10 +192,16 @@
         </h2>
         <div class="col-md-9">
           <div id="exploratory-vis"></div>
+          <div class="legend">
+            <label class="button-netflix-label legend-label">Netflix</label>
+            <label class="button-prime-label legend-label">Prime Video</label>
+            <label class="button-hulu-label legend-label">Hulu</label>
+            <label class="button-disney-label legend-label">Disney +</label>
+          </div>
         </div>
         <div class="col-md-3 exploratory-filter">
           <select id="genres" multiple="multiple"></select>
-          <div>
+          <div style="margin-top: 24px; margin-bottom: 12px">
             <label for="rottenTomatoes"
               >Min Rotten Tomatoes Score: <span id="rottenTomatoesValue"></span
             ></label>
@@ -193,7 +214,7 @@
               id="rottenTomatoes"
             />
           </div>
-          <div>
+          <div style="margin-top: 12px; margin-bottom: 12px">
             <label for="IMDb"
               >Min IMDb Score: <span id="IMDbValue"></span
             ></label>
@@ -206,14 +227,14 @@
               id="IMDb"
             />
           </div>
-          <div>
-            <label for="IMDb">Max Age: <span id="AgeValue"></span></label>
+          <div style="margin-top: 12px">
+            <label for="IMDb">Age Rating: <span id="AgeValue"></span>+</label>
             <input
               type="range"
               class="custom-range"
               min="0"
-              max="30"
-              value="30"
+              max="18"
+              value="0"
               id="Age"
             />
           </div>
@@ -287,8 +308,7 @@
           <div style="display: flex; flex-direction: row">
             <div id="chart-area">
               <div>
-
-                <div id="tooltip" >
+                <div id="tooltip">
                   <!--					<p><strong id="tooltip-strong">Goals</strong></p>-->
                   <p><span id="value"></span></p>
                   <p><span id="value2"></span></p>
@@ -306,7 +326,10 @@
                 padding-top: 28px;
               "
             >
-              <div id="results-vis" style="min-width: 500px; height: 500px"></div>
+              <div
+                id="results-vis"
+                style="min-width: 500px; height: 500px"
+              ></div>
               <!--              <form class="form-inline">-->
               <!--                <div class="form-group">-->
               <!--                  <label for="plot-platform" style="margin-right: 4px"-->
@@ -324,7 +347,7 @@
               <!--                </div>-->
               <!--              </form>-->
 
-              <table class="table" style="width: 30%; margin-left: 30px;">
+              <table class="table" style="width: 30%; margin-left: 30px">
                 <thead>
                   <tr>
                     <th scope="col">Platform</th>
@@ -332,7 +355,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr style="background-color: gold;">
+                  <tr style="background-color: gold">
                     <th scope="row" id="top-platform"></th>
                     <td id="top-platform-count"></td>
                   </tr>

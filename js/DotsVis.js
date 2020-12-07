@@ -31,15 +31,6 @@ class DotsVis {
       .append("g")
       .attr("transform", `translate (${vis.margin.left}, ${vis.margin.top})`);
 
-    // add title
-    vis.svg
-      .append("g")
-      .attr("class", "title bar-title")
-      .append("text")
-      .text("Genres")
-      .attr("transform", `translate(${vis.width / 2}, 10)`)
-      .attr("text-anchor", "middle");
-
     vis.tooltip = d3
       .select("body")
       .append("div")
@@ -116,7 +107,7 @@ class DotsVis {
       return (
         x.IMDb >= IMDbValue &&
         x["Rotten Tomatoes"] >= RTValue / 100 &&
-        x.Age <= AgeValue
+        x.Age >= AgeValue
       );
     });
 
@@ -152,7 +143,6 @@ class DotsVis {
         }
       }
     });
-
 
     vis.updateVis();
   }
@@ -306,7 +296,7 @@ class DotsVis {
       .force("cluster", forceCluster)
       .on("tick", tick);
 
-    vis.force.alpha(0.2).restart();
+    vis.force.alpha(0.3).restart();
 
     // Drag functions used for interactivity
     function dragstarted(event, d) {
@@ -330,5 +320,4 @@ class DotsVis {
       d.fy = null;
     }
   }
-
 }

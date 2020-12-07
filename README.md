@@ -1,6 +1,6 @@
 # cs171_final_proj
 
-Title: Netflix, Hulu, Disney +, or Prime Video?
+Title: Quaran-streaming
 Team Members: Yuke Zheng (team leader), Cyrus Faruque, Stephanie Cheng
 
 Project Abstarct:

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Streaming Wars</title>
+    <title>QUARAN-STREAMING</title>
 
     <!-- Load CSS libraries -->
     <link
@@ -30,114 +30,54 @@
       rel="stylesheet"
       type="text/css"
     />
+    <link
+      href="//db.onlinewebfonts.com/c/5755b52141ec4ff6f2990c355ede49e0?family=MBVinatageW01-Medium"
+      rel="stylesheet"
+      type="text/css"
+    />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
   </head>
   <body>
-    <nav id="dot-nav"></nav>
+    <!-- <nav id="dot-nav"></nav> -->
     <!--landing page section-->
     <section>
       <div class="row section" id="section0">
-        <div
-          class="col-5 d-flex flex-column justify-content-center"
-          style="background: white"
-        >
-          <h1 class="title" id="landing-title">
-            Streaming <br />
-            Wars
-          </h1>
+        <img src="img/movies.png" class="background-img" />
+        <div class="col-8 d-flex flex-column justify-content-center">
+          <h1 id="landing-title">Netflix, Hulu, Disney +, or Prime Video?</h1>
           <h4 class="title-sub">
-            On the market for a new streaming platform? Netflix, Hulu, Prime
-            Video, and Disney + the major four, and we are here to help you
-            compare their movie collections and choose which streaming platform
-            is best for you!
+            With everyone staying at home these days, we're here to help you
+            decide which movie platform you should quaran-stream!
           </h4>
         </div>
-        <div
-          class="col-7 d-flex flex-column justify-content-center"
-          style="background: white"
-        >
-          <div class="align-self-center">
+        <!-- <div class="col-5 d-flex flex-column justify-content-center"> -->
+        <!-- <div class="align-self-center">
             <img
-              src="img/streaming_wars_home.png"
+              src="img/home.png"
               alt="streaming wars home
               page"
               id="home-page-graphic"
               width="120%"
             />
-          </div>
-        </div>
-        <div
-          class="row d-flex justify-content-center align-content-end"
-          style="width: 100%"
-        >
-          <img
-            src="http://image.flaticon.com/icons/svg/3/3907.svg"
-            id="arrow"
-            class="animated bounce"
-          />
-        </div>
+          </div> -->
+        <!-- </div> -->
       </div>
     </section>
-
-    <!-- section 1: intro-->
-    <!-- <section>
-      <div class="row section" id="section1">
-        <div class="col-md-12">
-          <h2 class="title">
-            When was the last time you watched TV...on an actual TV?
-          </h2>
-          <h6>
-            Televisions and movie theaters seem like things of the past. With
-            the convenience of almost any movie or show at just a few taps or
-            clicks away, streaming has become the mainstream (no pun intended).
-          </h6>
-        </div>
-        <div class="row d-flex justify-content-center align-content-center">
-          <img
-            src="img/tv_glitch.gif"
-            alt="streaming wars home page"
-            width="50%"
-          />
-        </div>
-      </div>
-    </section> -->
-
-    <!-- section 2: hook visualization-->
-    <!-- <section>
-      <div class="row section" id="section2">
-        <div class="col-md-12">
-          <h2 class="title">The rise of the age of streaming</h2>
-          <h6>
-            The number of subscribers and revenue for streaming platforms have
-            skyrocketed over the last decade. Netflix appears to be the leading
-            platform to rise in the streaming space ever since it started
-            transitioning from its old DVD rental service model to a streaming
-            model in 2007.
-          </h6>
-          <div id="hook-vis">
-            <!-- placeholder img-->
-    <!-- <img src="img/placeholders/hook-vis.png" width="100%" />
-          </div>
-        </div>
-      </div>
-    </section> -->
-
     <!-- section 3: overview visualizations (map, radial genre, chord diagram)-->
     <section>
       <div class="row section" id="section3">
         <div class="col-md-12">
-          <h2 class="title">Overview of the Platforms</h2>
+          <h2 class="title">How do the streaming platforms compare?</h2>
 
           <!-- map visualization -->
           <h4>
-            Do you like watching movies from India, or maybe from Australia?
-            Perhaps you prefer thrillers over romance? Let's look at a breakdown
-            each platform's movies by country of production and by genre.
+            Each streaming platform has a unique selection of movies from around
+            the world and prioritize different types of genres. Click the
+            buttons to learn more about each platform.
           </h4>
-          <h6>Click to toggle between platforms:</h6>s
           <div
             class="btn-group btn-group-toggle"
             id="map-selector"
@@ -188,21 +128,21 @@
           <div class="row vis1">
             <div class="col-7">
               <div class="chart-title">
-                Number of Movies Produced in Each Country
+                Number of Movies by Country of Production
               </div>
               <div class="row" id="map-vis"></div>
             </div>
             <div class="col-5">
               <div class="chart-title" style="padding-right: 50px">
-                Genre Profile
+                Percent Breakdown of Movie Library by Genre
               </div>
               <div class="row" id="radial-genre-vis"></div>
             </div>
           </div>
-<!--          <div id="map-vis"></div>-->
-<!--          <div class="row" style="height: 18vh">-->
-<!--            <div id="brushDiv" style="height: 100%; width: 100%"></div>-->
-<!--          </div>-->
+          <!--          <div id="map-vis"></div>-->
+          <!--          <div class="row" style="height: 18vh">-->
+          <!--            <div id="brushDiv" style="height: 100%; width: 100%"></div>-->
+          <!--          </div>-->
         </div>
       </div>
     </section>
@@ -228,8 +168,9 @@
     <section>
       <div class="row section" id="section4">
         <h2 class="title">
-          Tell us more about the movies you like.<br />
-          We'll find the platform that is best for you!
+          Narrow down each platform's library by telling us your movie
+          preferences. We'll figure out the platform that you should
+          quaran-stream!
         </h2>
         <div class="col-md-9">
           <div id="exploratory-vis"></div>
@@ -281,7 +222,9 @@
     <section>
       <div class="row section" id="section5">
         <div class="col-md-12">
-          <h2 class="title">These are your viewing preferences based on your filtered results.</h2>
+          <h2 class="title">
+            These are your viewing preferences based on your filtered results.
+          </h2>
           <h6>
             Take a look at how your viewing preferences map onto the streaming
             platforms.
@@ -359,14 +302,12 @@
         <div class="col-md-12">
           <h2 class="title" id="final-chosen-platform"></h2>
           <h6 id="fcp-description">
-<!--            Based on your viewing preferences, we think XYZ platform is most-->
-<!--            suited for you because it has: <br />-->
-<!--            the greatest number of ABC genres, <br />XX% of content with a XX%-->
-<!--            rotten tomatoes rating, <br />and the most content from CountryName.-->
+            <!--            Based on your viewing preferences, we think XYZ platform is most-->
+            <!--            suited for you because it has: <br />-->
+            <!--            the greatest number of ABC genres, <br />XX% of content with a XX%-->
+            <!--            rotten tomatoes rating, <br />and the most content from CountryName.-->
           </h6>
-          <div id="fcp-image-container">
-
-          </div>
+          <div id="fcp-image-container"></div>
         </div>
       </div>
     </section>
@@ -403,7 +344,5 @@
     <script src="js/PlotVis.js"></script>
     <script src="js/GenreSelector.js"></script>
     <script src="js/DotsFilters.js"></script>
-
-
   </body>
 </html>

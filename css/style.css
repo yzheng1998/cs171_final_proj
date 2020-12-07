@@ -1,20 +1,46 @@
+@import url(//db.onlinewebfonts.com/c/5755b52141ec4ff6f2990c355ede49e0?family=MBVinatageW01-Medium);
+
+@font-face {
+  font-family: "MBVinatageW01-Medium";
+  src: url("//db.onlinewebfonts.com/t/5755b52141ec4ff6f2990c355ede49e0.eot");
+  src: url("//db.onlinewebfonts.com/t/5755b52141ec4ff6f2990c355ede49e0.eot?#iefix")
+      format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/5755b52141ec4ff6f2990c355ede49e0.woff2")
+      format("woff2"),
+    url("//db.onlinewebfonts.com/t/5755b52141ec4ff6f2990c355ede49e0.woff")
+      format("woff"),
+    url("//db.onlinewebfonts.com/t/5755b52141ec4ff6f2990c355ede49e0.ttf")
+      format("truetype"),
+    url("//db.onlinewebfonts.com/t/5755b52141ec4ff6f2990c355ede49e0.svg#MBVinatageW01-Medium")
+      format("svg");
+}
+
+* {
+  font-family: "MBVinatageW01-Medium";
+}
 #landing-title {
-  color: black;
-  font-family: "Space Mono";
+  color: #ffe77d;
   font-weight: 700;
   font-size: min(60px, 5vw);
 }
 
 .title {
-  font-family: "Space Mono";
   font-weight: 700;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .title-sub {
-  font-family: "Space Mono";
-  font-size: 20px;
+  color: #ffe77d;
+  font-size: 40px;
   font-weight: 700;
+}
+
+.background-img {
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  filter: brightness(50%);
 }
 
 h6 {
@@ -25,7 +51,7 @@ h6 {
 
 h4 {
   margin-top: 40px;
-  font-family: "Space Mono";
+  font-family: "MBVinatageW01-Medium";
   font-weight: 700;
 }
 

@@ -76,6 +76,8 @@ class PlotVis {
       'Disney+': 0,
       'Prime Video': 0,
     };
+
+    vis.sortablePlatforms = [];
     // vis.netflixCount = {};
     // vis.huluCount = {};
     // vis.disneyCount = {};
@@ -119,14 +121,28 @@ class PlotVis {
       }
     })
 
+    console.log(vis.platformCounts);
 
+    vis.sortablePlatforms = [];
+    for (let platform in vis.platformCounts) {
+      vis.sortablePlatforms.push([platform, vis.platformCounts[platform]]);
+    }
 
-    document.getElementById("netflix-count").innerHTML = vis.numberWithCommas(vis.platformCounts.Netflix);
-    document.getElementById("hulu-count").innerHTML = vis.numberWithCommas(vis.platformCounts.Hulu);
-    document.getElementById("disney-count").innerHTML =
-      vis.numberWithCommas(vis.platformCounts["Disney+"]);
-    document.getElementById("prime-video-count").innerHTML =
-      vis.numberWithCommas(vis.platformCounts["Prime Video"]);
+    vis.sortablePlatforms.sort(function(a, b) {
+      return b[1] - a[1];
+    });
+
+    console.log(vis.sortablePlatforms);
+
+    document.getElementById("top-platform-count").innerHTML = '<b>' + vis.numberWithCommas(vis.sortablePlatforms[0][1]) + '</b>';
+    document.getElementById("top-platform").innerHTML = vis.numberWithCommas(vis.sortablePlatforms[0][0]);
+    document.getElementById("second-platform-count").innerHTML = vis.numberWithCommas(vis.sortablePlatforms[1][1]);
+    document.getElementById("second-platform").innerHTML = vis.numberWithCommas(vis.sortablePlatforms[1][0]);
+    document.getElementById("third-platform-count").innerHTML = vis.numberWithCommas(vis.sortablePlatforms[2][1]);
+    document.getElementById("third-platform").innerHTML = vis.numberWithCommas(vis.sortablePlatforms[2][0]);
+    document.getElementById("fourth-platform-count").innerHTML = vis.numberWithCommas(vis.sortablePlatforms[3][1]);
+    document.getElementById("fourth-platform").innerHTML = vis.numberWithCommas(vis.sortablePlatforms[3][0]);
+
 
 
     vis.finalPlatform = Object.keys(vis.platformCounts).find(key => vis.platformCounts[key] === Math.max(vis.platformCounts.Netflix,
@@ -146,7 +162,7 @@ class PlotVis {
     let link = vis.assignLink(vis.finalPlatform);
 
     document.getElementById('fcp-image-container').innerHTML = '' +
-        '<a id="fcp-image" href="' + link + '">' +
+        '<a id="fcp-image" href="' + link + '" target="_blank">' +
           '<img class="final-image" src="img/' + vis.finalPlatform + '.png" />' +
         '</a>'
 
@@ -166,7 +182,10 @@ class PlotVis {
     if (plotPlatform === '') {
       console.log('plotPlatform all')
       vis.displayData = filteredData.filter(movie => {
-        return movie['Rotten Tomatoes'] !== null && movie['IMDb'] !== 0;
+        return (selectedGenres.length === 0 ||
+            selectedGenres.filter((value) =>
+                movie.Genres.split(",").includes(value)
+            ).length !== 0) && movie['Rotten Tomatoes'] !== null && movie['IMDb'] !== 0;
       });
     }
 

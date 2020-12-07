@@ -52,6 +52,7 @@
             With everyone staying at home these days, we're here to help you
             decide which movie platform you should quaran-stream!
           </h4>
+          <h4 class="authors">Cyrus Faruque, Stephanie Cheng, Yuke Zheng</h4>
         </div>
         <!-- <div class="col-5 d-flex flex-column justify-content-center"> -->
         <!-- <div class="align-self-center">
@@ -223,62 +224,68 @@
       <div class="row section" id="section5">
         <div class="col-md-12">
           <h2 class="title">
-            Here is how each platform stacks up against one another based off your filtered criteria.
+            Here is how each platform stacks up against one another based off
+            your filtered criteria.
           </h2>
           <h6>
-            Each dot represents a movie. Hover to get each movie's info. Plot excludes movies for which there is no Rotten Tomatoes rating.
+            Each dot is a movie. Hover over to get each movie's info. On the
+            right, select which platform to plot and use the table to see how
+            the different platforms compare overall.
           </h6>
           <div
-                  class="btn-group btn-group-toggle"
-                  id="map-selector"
-                  data-toggle="buttons"
+            class="btn-group btn-group-toggle"
+            id="map-selector"
+            data-toggle="buttons"
           >
-            <label class="btn btn-primary rounded active" id="button-all-label-2">
+            <label
+              class="btn btn-primary rounded active"
+              id="button-all-label-2"
+            >
               <input
-                      type="radio"
-                      value="All"
-                      id="button-all-2"
-                      name="platform"
-                      checked
+                type="radio"
+                value="All"
+                id="button-all-2"
+                name="platform"
+                checked
               />All</label
             >
             <label class="btn btn-primary rounded" id="button-netflix-label-2">
               <input
-                      type="radio"
-                      value="Netflix"
-                      id="button-netflix-2"
-                      name="platform"
+                type="radio"
+                value="Netflix"
+                id="button-netflix-2"
+                name="platform"
               />Netflix</label
             >
             <label class="btn btn-primary rounded" id="button-prime-label-2">
               <input
-                      type="radio"
-                      value="Prime Video"
-                      id="button-prime-2"
-                      name="platform"
+                type="radio"
+                value="Prime Video"
+                id="button-prime-2"
+                name="platform"
               />Prime Video</label
             >
             <label class="btn btn-primary rounded" id="button-hulu-label-2">
               <input
-                      type="radio"
-                      value="Hulu"
-                      id="button-hulu-2"
-                      name="platform"
+                type="radio"
+                value="Hulu"
+                id="button-hulu-2"
+                name="platform"
               />Hulu</label
             >
             <label class="btn btn-primary rounded" id="button-disney-label-2">
               <input
-                      type="radio"
-                      value="Disney+"
-                      id="button-disney-2"
-                      name="platform"
+                type="radio"
+                value="Disney+"
+                id="button-disney-2"
+                name="platform"
               />Disney +</label
             >
           </div>
           <div style="display: flex; flex-direction: row">
             <div id="chart-area">
               <div>
-                <div id="tooltip" >
+                <div id="tooltip">
                   <!--					<p><strong id="tooltip-strong">Goals</strong></p>-->
                   <p><span id="value"></span></p>
                   <p><span id="value2"></span></p>
@@ -294,23 +301,22 @@
                 padding-left: 12px;
               "
             >
-<!--              <form class="form-inline">-->
-<!--                <div class="form-group">-->
-<!--                  <label for="plot-platform" style="margin-right: 4px"-->
-<!--                    >Choose platform</label-->
-<!--                  >-->
-<!--                  <select class="form-control" id="plot-platform">-->
-<!--                    <option value="Netflix">Netflix</option>-->
-<!--                    <option value="Hulu">Hulu</option>-->
-<!--                    <option value="Disney+">Disney+</option>-->
-<!--                    <option value="Prime Video">Prime Video</option>-->
-<!--                  </select>-->
+              <!--              <form class="form-inline">-->
+              <!--                <div class="form-group">-->
+              <!--                  <label for="plot-platform" style="margin-right: 4px"-->
+              <!--                    >Choose platform</label-->
+              <!--                  >-->
+              <!--                  <select class="form-control" id="plot-platform">-->
+              <!--                    <option value="Netflix">Netflix</option>-->
+              <!--                    <option value="Hulu">Hulu</option>-->
+              <!--                    <option value="Disney+">Disney+</option>-->
+              <!--                    <option value="Prime Video">Prime Video</option>-->
+              <!--                  </select>-->
 
-<!--                  &lt;!&ndash; Activity IV &ndash;&gt;-->
-<!--                  &lt;!&ndash;<button type="button" class="btn btn-link" id="change-sorting"><i class="glyphicon glyphicon-sort"></i> Sort</button>&ndash;&gt;-->
-<!--                </div>-->
-<!--              </form>-->
-
+              <!--                  &lt;!&ndash; Activity IV &ndash;&gt;-->
+              <!--                  &lt;!&ndash;<button type="button" class="btn btn-link" id="change-sorting"><i class="glyphicon glyphicon-sort"></i> Sort</button>&ndash;&gt;-->
+              <!--                </div>-->
+              <!--              </form>-->
 
               <table class="table">
                 <thead>

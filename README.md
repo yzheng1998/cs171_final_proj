@@ -17,4 +17,4 @@ https://yzheng1998.github.io/cs171_final_proj/
 
 Screencast Video:
 
-
+https://drive.google.com/file/d/1D-xfKFseN9v7t25IKW6mfl6oh0aRwRXp/view?usp=sharing

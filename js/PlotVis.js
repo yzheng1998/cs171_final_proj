@@ -78,10 +78,6 @@ class PlotVis {
     };
 
     vis.sortablePlatforms = [];
-    // vis.netflixCount = {};
-    // vis.huluCount = {};
-    // vis.disneyCount = {};
-    // vis.primeCount = {};
 
     var selectedGenres = $("#genres").val();
 
@@ -189,47 +185,7 @@ class PlotVis {
       });
     }
 
-// =======
-//     vis.displayData = filteredData.filter((movie) => {
-//       return (
-//         movie[plotPlatform] === 1 &&
-//         (selectedGenres.length === 0 ||
-//           selectedGenres.filter((value) =>
-//             movie.Genres.split(",").includes(value)
-//           ).length !== 0) &&
-//         movie["Rotten Tomatoes"] !== null
-//       );
-//     });
-// >>>>>>> Stashed changes
 
-    //
-    // vis.netflixCount = vis.displayData.reduce((a, b) => ({Netflix: a.Netflix + b.Netflix}));
-    // vis.huluCount = vis.displayData.reduce((a, b) => ({Hulu: a.Hulu + b.Hulu}));
-    // vis.disneyCount = vis.displayData.reduce((a, b) => ({'Disney+': a['Disney+'] + b['Disney+']}));
-    // vis.primeCount = vis.displayData.reduce((a, b) => ({'Prime Video': a['Prime Video'] + b['Prime Video']}));
-    //
-    // console.log(vis.netflixCount)
-    // console.log(vis.huluCount)
-    // console.log(vis.disneyCount)
-    // console.log(vis.primeCount)
-
-    // document.getElementById("netflix-count").innerHTML = platformCounts.Netflix;
-    // document.getElementById("hulu-count").innerHTML = platformCounts.Hulu;
-    // document.getElementById("disney-count").innerHTML =
-    //   platformCounts["Disney+"];
-    // document.getElementById("prime-video-count").innerHTML =
-    //   platformCounts["Prime Video"];
-
-    // platforms.forEach((id) => {
-    //   let index = vis.streamingData.findIndex((x) => x.Id === id);
-
-    //   if (
-    //     !vis.displayData.includes(vis.streamingData[index]) &&
-    //     vis.streamingData[index]["Rotten Tomatoes"] !== null
-    //   ) {
-    //     vis.displayData.push(vis.streamingData[index]);
-    //   }
-    // });
 
     vis.updateVis();
   }
@@ -379,22 +335,6 @@ class PlotVis {
       .attr("opacity", "0.7");
 
 
-
-    // vis.svg.append("g")
-    //     .attr("stroke-width", 1.5)
-    //     .attr("font-family", "sans-serif")
-    //     .attr("font-size", 10)
-    //     .selectAll("path")
-    //     .data(vis.displayData)
-    //     .join("path")
-    //     .attr("transform", d => `translate(${vis.x(d['Rotten Tomatoes'])},${vis.y(d['IMDb'])})`)
-    //     .attr("fill", 'red')
-    //     .attr("d", 'M4.51351666838205,0A4.51351666838205,4.51351666838205,0,1,1,-4.51351666838205,0A4.51351666838205,4.51351666838205,0,1,1,4.51351666838205,0')
-    //     .attr('opacity', '0.7');
-    //     // .attr("fill", d => vis.color(d.Netflix))
-    //     // .attr("d", d => vis.shape(d.Netflix));
-    //     // .attr("fill", d => color(d.category))
-    //     // .attr("d", d => shape(d.category));
 
     vis.svg.select(".y-axis").transition().call(vis.yAxis);
     vis.svg.select(".x-axis").transition().call(vis.xAxis);
